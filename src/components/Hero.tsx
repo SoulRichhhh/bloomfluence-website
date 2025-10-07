@@ -765,7 +765,13 @@ const Hero = () => {
           </div>
           
           {/* Stats */}
-          <div className="stats-section grid grid-cols-2 md:flex md:justify-center md:items-center gap-8 md:gap-16 max-w-5xl mx-auto -mt-6">
+          <div className="stats-section relative grid grid-cols-2 md:flex md:justify-center md:items-center gap-8 md:gap-16 max-w-5xl mx-auto -mt-6">
+            {/* Mobile: Vertical divider line (center) */}
+            <div className="md:hidden absolute left-1/2 top-0 bottom-0 w-px bg-gray-700 -translate-x-1/2"></div>
+            
+            {/* Mobile: Horizontal divider line (center) */}
+            <div className="md:hidden absolute top-1/2 left-0 right-0 h-px bg-gray-700 -translate-y-1/2"></div>
+            
             <div className="text-center group md:min-w-[100px]">
               <div className="text-3xl font-bold text-white mb-2 transition-colors duration-300">
                 {animatedValues.influencers}M+
