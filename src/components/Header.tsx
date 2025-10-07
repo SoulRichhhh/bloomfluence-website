@@ -149,6 +149,19 @@ const Header = () => {
               <div className={`pt-4 space-y-3 border-t ${
                 isScrolled ? 'border-gray-200' : 'border-gray-800'
               }`}>
+                {/* Language Switcher for Mobile */}
+                <button
+                  onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
+                  className={`w-full flex items-center justify-center space-x-2 px-4 py-3 font-medium transition-colors rounded-lg ${
+                    isScrolled
+                      ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      : 'text-white/80 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <Globe className="h-4 w-4" />
+                  <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中'}</span>
+                </button>
+                
                 <a
                   href="#login"
                   className={`block px-4 py-3 font-medium transition-colors rounded-lg ${
