@@ -1,0 +1,104 @@
+import { Zap, Target, BarChart3, Globe, Shield, Brain } from 'lucide-react'
+import { useLanguage } from '../contexts/LanguageContext'
+
+const Features = () => {
+  const { t } = useLanguage()
+  const features = [
+    {
+      title: t('features.ai.title'),
+      description: t('features.ai.desc'),
+      icon: Brain,
+      color: "from-accent-400 to-accent-600"
+    },
+    {
+      title: t('features.automation.title'),
+      description: t('features.automation.desc'),
+      icon: Zap,
+      color: "from-aura-400 to-aura-600"
+    },
+    {
+      title: t('features.targeting.title'),
+      description: t('features.targeting.desc'),
+      icon: Target,
+      color: "from-accent-400 to-accent-600"
+    },
+    {
+      title: t('features.analytics.title'),
+      description: t('features.analytics.desc'),
+      icon: BarChart3,
+      color: "from-aura-400 to-aura-600"
+    },
+    {
+      title: t('features.network.title'),
+      description: t('features.network.desc'),
+      icon: Globe,
+      color: "from-accent-400 to-accent-600"
+    },
+    {
+      title: t('features.safety.title'),
+      description: t('features.safety.desc'),
+      icon: Shield,
+      color: "from-aura-400 to-aura-600"
+    }
+  ]
+
+  return (
+    <section id="services" className="pt-32 pb-12 bg-gray-50" style={{ scrollMarginTop: '80px' }}>
+      <div className="container max-w-7xl">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {t('features.title')}
+            <br />
+            <span className="text-gray-600">{t('features.subtitle')}</span>
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            {t('features.desc')}
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-0">
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon
+            const isLastRow = index >= features.length - (features.length % 3 === 0 ? 3 : features.length % 3)
+            const isLastColumn = (index + 1) % 3 === 0
+            
+            return (
+              <div key={index} className="relative p-8 group transition-all duration-500 hover:bg-gray-50/30">
+                {/* 十字分割线 */}
+                {!isLastColumn && (
+                  <div className="absolute right-0 top-0 bottom-0 w-px bg-gray-300/40"></div>
+                )}
+                {!isLastRow && (
+                  <div className="absolute left-0 right-0 bottom-0 h-px bg-gray-300/40"></div>
+                )}
+                
+                <div className="text-center">
+                  <div className="w-14 h-14 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-105 transition-all duration-500 shadow-lg shadow-gray-900/20 relative overflow-hidden">
+                    <div 
+                      className="absolute inset-0 bg-gradient-to-r from-pink-500 via-pink-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-x"
+                      style={{
+                        backgroundSize: '200% 200%'
+                      }}
+                    ></div>
+                    <IconComponent className="h-7 w-7 text-white relative z-10 transition-colors duration-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-gray-700 transition-colors duration-500">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-relaxed font-medium">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+
+      </div>
+    </section>
+  )
+}
+
+export default Features
