@@ -1,4 +1,4 @@
-import { Star, Users, Globe, TrendingUp, CheckCircle } from 'lucide-react'
+import { Users, Globe, TrendingUp, CheckCircle } from 'lucide-react'
 
 const Clients = () => {
   const clients = [

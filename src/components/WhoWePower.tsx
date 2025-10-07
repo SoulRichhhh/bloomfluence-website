@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 

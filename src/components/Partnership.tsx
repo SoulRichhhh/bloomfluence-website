@@ -1,4 +1,3 @@
-import React from 'react'
 import { MessageCircle, Phone, Mail, CheckCircle, Star } from 'lucide-react'
 
 const Partnership = () => {

@@ -7,7 +7,7 @@ interface ModelSelectionProps {
 }
 
 const ModelSelection: React.FC<ModelSelectionProps> = ({ 
-  onNavigateToChat, 
+  onNavigateToChat: _onNavigateToChat, 
   onShowFilter 
 }) => {
   return (

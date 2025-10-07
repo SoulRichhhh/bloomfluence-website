@@ -1,5 +1,4 @@
-import React from 'react'
-import { ArrowRight, Minus, Twitter, Linkedin, Github, Mail } from 'lucide-react'
+import { Minus, Twitter, Linkedin, Github, Mail } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 
 const Footer = () => {
