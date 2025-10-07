@@ -15,6 +15,7 @@ const Hero = () => {
   const [titleVisible, setTitleVisible] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [shakeIntensity, setShakeIntensity] = useState(0)
 
   // Emoji配置数据（添加半径信息用于碰撞检测）
   const emojis = [
@@ -70,6 +71,91 @@ const Hero = () => {
     })
 
     setEmojiPhysics(initialPhysics)
+  }, [])
+
+  // 手机摇晃检测（仅移动端）
+  useEffect(() => {
+    let lastX: number | null = null
+    let lastY: number | null = null
+    let lastZ: number | null = null
+    let lastTime = Date.now()
+
+    const handleDeviceMotion = (event: DeviceMotionEvent) => {
+      const acceleration = event.accelerationIncludingGravity
+      if (!acceleration || !acceleration.x || !acceleration.y || !acceleration.z) return
+
+      const currentTime = Date.now()
+      const timeDiff = currentTime - lastTime
+
+      if (timeDiff > 100) { // 每100ms检测一次
+        const x = acceleration.x
+        const y = acceleration.y
+        const z = acceleration.z
+
+        if (lastX !== null && lastY !== null && lastZ !== null) {
+          const deltaX = Math.abs(x - lastX)
+          const deltaY = Math.abs(y - lastY)
+          const deltaZ = Math.abs(z - lastZ)
+          const totalShake = deltaX + deltaY + deltaZ
+
+          // 如果检测到明显的摇晃（阈值可调整）
+          if (totalShake > 15) {
+            setShakeIntensity(totalShake)
+            // 应用随机力到emoji
+            setEmojiPhysics(prevPhysics => 
+              prevPhysics.map(physics => ({
+                ...physics,
+                vx: physics.vx + (Math.random() - 0.5) * totalShake * 3,
+                vy: physics.vy + (Math.random() - 0.5) * totalShake * 3
+              }))
+            )
+            
+            // 逐渐衰减摇晃强度
+            setTimeout(() => setShakeIntensity(0), 300)
+          }
+        }
+
+        lastX = x
+        lastY = y
+        lastZ = z
+        lastTime = currentTime
+      }
+    }
+
+    // 检查是否支持 DeviceMotion API（主要是移动设备）
+    if (typeof window !== 'undefined' && 'DeviceMotionEvent' in window) {
+      // 某些浏览器需要用户授权
+      if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+        // iOS 13+ 需要用户授权
+        const button = document.createElement('button')
+        button.textContent = '允许摇晃交互'
+        button.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:10px 20px;background:#ec4899;color:white;border:none;border-radius:8px;font-size:14px;'
+        button.onclick = async () => {
+          try {
+            const response = await (DeviceMotionEvent as any).requestPermission()
+            if (response === 'granted') {
+              window.addEventListener('devicemotion', handleDeviceMotion)
+              button.remove()
+            }
+          } catch (error) {
+            console.error('Error requesting device motion permission:', error)
+          }
+        }
+        // 只在移动设备上显示按钮
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+          document.body.appendChild(button)
+          // 3秒后自动隐藏按钮
+          setTimeout(() => button.remove(), 3000)
+        }
+      } else {
+        // Android 和旧版 iOS 直接监听
+        window.addEventListener('devicemotion', handleDeviceMotion)
+      }
+    }
+
+    return () => {
+      window.removeEventListener('devicemotion', handleDeviceMotion)
+    }
   }, [])
 
   // 物理引擎主循环
