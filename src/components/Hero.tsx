@@ -15,7 +15,6 @@ const Hero = () => {
   const [titleVisible, setTitleVisible] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
-  const [shakeIntensity, setShakeIntensity] = useState(0)
 
   // Emoji配置数据（添加半径信息用于碰撞检测）
   const emojis = [
@@ -100,7 +99,6 @@ const Hero = () => {
 
           // 如果检测到明显的摇晃（阈值可调整）
           if (totalShake > 15) {
-            setShakeIntensity(totalShake)
             // 应用随机力到emoji
             setEmojiPhysics(prevPhysics => 
               prevPhysics.map(physics => ({
@@ -109,9 +107,6 @@ const Hero = () => {
                 vy: physics.vy + (Math.random() - 0.5) * totalShake * 3
               }))
             )
-            
-            // 逐渐衰减摇晃强度
-            setTimeout(() => setShakeIntensity(0), 300)
           }
         }
 
