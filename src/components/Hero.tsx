@@ -614,7 +614,7 @@ const Hero = () => {
           </h1>
           
           {/* Mission Statement */}
-          <h2 className={`text-3xl md:text-4xl font-bold text-white mb-4 -mt-6 ${language === 'zh' ? 'font-sans' : 'font-sf-pro'}`}>
+          <h2 className={`text-2xl md:text-4xl font-bold text-white mb-4 -mt-6 whitespace-pre-line ${language === 'zh' ? 'font-sans' : 'font-sf-pro'}`}>
             {t('hero.mission')}
           </h2>
 

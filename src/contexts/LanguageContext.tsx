@@ -25,7 +25,7 @@ const translations = {
     
     // Hero
     'hero.badge': 'AI Influencer Marketing Platform',
-    'hero.mission': 'Global Influence for Your AI Products',
+    'hero.mission': 'Global Influence\nfor Your AI Products',
     'hero.subtitle': 'We specialize in AI tool influencer marketing, partnering with high-potential AI products to create viral hits and achieve global growth.',
     'hero.getStarted': 'Get Started',
     'hero.learnMore': 'Learn More',

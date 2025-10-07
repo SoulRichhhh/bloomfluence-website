@@ -139,12 +139,12 @@ const Guarantee = () => {
           <div className="max-w-2xl mx-auto">
             {/* Logo */}
             <div className="flex items-center justify-center mb-4 px-4">
-              <span className="text-3xl sm:text-4xl md:text-5xl font-poetsen text-white">
+              <span className="text-2xl sm:text-3xl md:text-5xl font-poetsen text-white">
                 BloomFluence
               </span>
             </div>
             
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
               {t('guarantee.cta.title1')}
               <span className="text-gray-300">{t('guarantee.cta.title2')}</span>
               {t('guarantee.cta.title3')}
