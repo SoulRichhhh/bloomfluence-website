@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const Testimonials = () => {
   const { t } = useLanguage()
@@ -140,17 +141,19 @@ const Testimonials = () => {
       ></div>
       
       <div className="container max-w-7xl relative z-10">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 bg-white text-black text-sm font-medium mb-6 rounded-full">
-            {t('testimonials.badge')}
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 bg-white text-black text-sm font-medium mb-6 rounded-full">
+              {t('testimonials.badge')}
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {t('testimonials.title')}
+            </h2>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              {t('testimonials.subtitle')}
+            </p>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('testimonials.title')}
-          </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            {t('testimonials.subtitle')}
-          </p>
-        </div>
+        </ScrollReveal>
 
         {/* Three rows of scrolling testimonials */}
         <div className="space-y-2">

@@ -1,5 +1,6 @@
 import { Zap, Target, BarChart3, Globe, Shield, Brain } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const Features = () => {
   const { t } = useLanguage()
@@ -60,37 +61,53 @@ const Features = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-0">
           {features.map((feature, index) => {
             const IconComponent = feature.icon
-            const isLastRow = index >= features.length - (features.length % 3 === 0 ? 3 : features.length % 3)
-            const isLastColumn = (index + 1) % 3 === 0
+            
+            // 移动端2列：最后2个不显示底部线，偶数列不显示右侧线
+            const isMobileLastRow = index >= features.length - 2
+            const isMobileLastColumn = (index + 1) % 2 === 0
+            
+            // 桌面端3列：最后一行不显示底部线，第3列不显示右侧线
+            const isDesktopLastRow = index >= features.length - (features.length % 3 === 0 ? 3 : features.length % 3)
+            const isDesktopLastColumn = (index + 1) % 3 === 0
             
             return (
-              <div key={index} className="relative p-8 group transition-all duration-500 hover:bg-gray-50/30">
-                {/* 十字分割线 */}
-                {!isLastColumn && (
-                  <div className="absolute right-0 top-0 bottom-0 w-px bg-gray-300/40"></div>
-                )}
-                {!isLastRow && (
-                  <div className="absolute left-0 right-0 bottom-0 h-px bg-gray-300/40"></div>
-                )}
-                
-                <div className="text-center">
-                  <div className="w-14 h-14 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-105 transition-all duration-500 shadow-lg shadow-gray-900/20 relative overflow-hidden">
-                    <div 
-                      className="absolute inset-0 bg-gradient-to-r from-pink-500 via-pink-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-x"
-                      style={{
-                        backgroundSize: '200% 200%'
-                      }}
-                    ></div>
-                    <IconComponent className="h-7 w-7 text-white relative z-10 transition-colors duration-500" />
+              <ScrollReveal key={index} delay={index * 100}>
+                <div className="relative p-8 group transition-all duration-500 hover:bg-gray-50/30">
+                  {/* 十字分割线 - 移动端2列 */}
+                  {!isMobileLastColumn && (
+                    <div className="md:hidden absolute right-0 top-0 bottom-0 w-px bg-gray-300/40"></div>
+                  )}
+                  {!isMobileLastRow && (
+                    <div className="md:hidden absolute left-0 right-0 bottom-0 h-px bg-gray-300/40"></div>
+                  )}
+                  
+                  {/* 十字分割线 - 桌面端3列 */}
+                  {!isDesktopLastColumn && (
+                    <div className="hidden md:block absolute right-0 top-0 bottom-0 w-px bg-gray-300/40"></div>
+                  )}
+                  {!isDesktopLastRow && (
+                    <div className="hidden md:block absolute left-0 right-0 bottom-0 h-px bg-gray-300/40"></div>
+                  )}
+                  
+                  <div className="text-center">
+                    <div className="w-14 h-14 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-105 transition-all duration-500 shadow-lg shadow-gray-900/20 relative overflow-hidden">
+                      <div 
+                        className="absolute inset-0 bg-gradient-to-r from-pink-500 via-pink-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-x"
+                        style={{
+                          backgroundSize: '200% 200%'
+                        }}
+                      ></div>
+                      <IconComponent className="h-7 w-7 text-white relative z-10 transition-colors duration-500" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-gray-700 transition-colors duration-500">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm leading-relaxed font-medium">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-gray-700 transition-colors duration-500">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed font-medium">
-                    {feature.description}
-                  </p>
                 </div>
-              </div>
+              </ScrollReveal>
             )
           })}
         </div>

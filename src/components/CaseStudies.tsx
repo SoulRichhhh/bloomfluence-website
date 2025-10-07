@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const CaseStudies = () => {
   const { t } = useLanguage()
@@ -74,9 +75,9 @@ const CaseStudies = () => {
         {/* Case Studies Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {caseStudies.map((study, index) => (
-            <div 
-              key={index} 
-              className={`bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 group case-study-card ${index === activeIndex && !isHovering ? 'active-card' : ''}`}
+            <ScrollReveal key={index} delay={index * 150}>
+              <div 
+                className={`bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 group case-study-card ${index === activeIndex && !isHovering ? 'active-card' : ''}`}
               style={{
                 boxShadow: 'none',
                 transition: 'all 0.3s ease'
@@ -155,6 +156,7 @@ const CaseStudies = () => {
                 </div>
               </div>
             </div>
+            </ScrollReveal>
           ))}
         </div>
 

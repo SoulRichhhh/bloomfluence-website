@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Sparkles, Star } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const Hero = () => {
   const { t, language } = useLanguage()
@@ -15,6 +16,12 @@ const Hero = () => {
   const [titleVisible, setTitleVisible] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [draggedEmoji, setDraggedEmoji] = useState<number | null>(null)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [shouldResetEmojis, setShouldResetEmojis] = useState(0) // 用于触发重置
+  const [deviceGravity, setDeviceGravity] = useState({ x: 0, y: 0 }) // 设备倾斜重力
+  const [orientationPermissionGranted, setOrientationPermissionGranted] = useState(false) // 权限状态
+  const orientationHandlerRef = useRef<((event: DeviceOrientationEvent) => void) | null>(null) // 监听器引用
 
   // Emoji配置数据（添加半径信息用于碰撞检测）
   const emojis = [
@@ -46,30 +53,82 @@ const Hero = () => {
     originalY: number
   }[]>([])
 
-  // 初始化物理状态
+  // 初始化物理状态（首次加载和重置时触发）
   useEffect(() => {
     const rect = document.querySelector('section')?.getBoundingClientRect()
     if (!rect) return
 
+    const isMobile = window.innerWidth < 768
+    const currentScrollY = window.scrollY
+    
+    // 如果是首次加载（shouldResetEmojis === 0）且不在页面顶部，则不初始化emoji
+    if (shouldResetEmojis === 0 && currentScrollY > 10) {
+      console.log('⏸️ Page not at top, emoji initialization skipped')
+      return
+    }
+    
     const initialPhysics = emojis.map((emoji) => {
-      const x = emoji.left !== undefined 
-        ? (rect.width * emoji.left / 100) 
-        : (rect.width - rect.width * (emoji.right || 0) / 100)
-      const y = emoji.top !== undefined 
-        ? (rect.height * emoji.top / 100) 
-        : (rect.height - rect.height * (emoji.bottom || 0) / 100)
+      let x, y
+      
+      if (isMobile) {
+        // 手机端：从屏幕顶端上方掉落
+        const screenWidth = window.innerWidth
+        const screenHeight = window.innerHeight
+        // 非常集中的水平分布，从中心区域掉落形成山形
+        const centerX = screenWidth / 2
+        x = centerX - 80 + Math.random() * 160 // 收窄到160px宽度
+        // 从顶端-40px开始掉落（y = screenHeight + 40 对应屏幕顶部上方40px）
+        y = screenHeight + 40 + Math.random() * 30 // 从-40px到-70px错开掉落
+      } else {
+        // 桌面端：原有位置
+        x = emoji.left !== undefined 
+          ? (rect.width * emoji.left / 100) 
+          : (rect.width - rect.width * (emoji.right || 0) / 100)
+        y = emoji.top !== undefined 
+          ? (rect.height * emoji.top / 100) 
+          : (rect.height - rect.height * (emoji.bottom || 0) / 100)
+      }
       
       return {
         x,
         y,
-        vx: 0,
-        vy: 0,
+        vx: isMobile ? (Math.random() - 0.5) * 2 : 0, // 极小的初始水平速度，便于堆成山形
+        vy: isMobile ? -Math.random() * 1.5 - 0.5 : 0, // 负数表示向下（y减小），较慢的初速度
         originalX: x,
         originalY: y
       }
     })
 
     setEmojiPhysics(initialPhysics)
+    console.log('🎆 Emoji initialized and dropping from top!')
+  }, [shouldResetEmojis]) // 监听重置触发器
+
+  // 监听滚动，只有真正触顶时才重置emoji
+  useEffect(() => {
+    let wasScrolledDown = false
+    let hasTriggeredReset = false // 防止重复触发
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      const isMobile = window.innerWidth < 768
+      
+      // 记录是否曾经向下滚动过
+      if (currentScrollY > 200) {
+        wasScrolledDown = true
+        hasTriggeredReset = false // 重置触发标记
+      }
+      
+      // 只有当真正触顶（scrollY = 0）时才重置emoji（仅手机端）
+      if (isMobile && wasScrolledDown && currentScrollY === 0 && !hasTriggeredReset) {
+        console.log('🔝 Reached top! Resetting emoji...')
+        setShouldResetEmojis(prev => prev + 1)
+        wasScrolledDown = false
+        hasTriggeredReset = true // 防止重复触发
+      }
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // 手机摇晃检测（仅移动端）
@@ -121,27 +180,8 @@ const Hero = () => {
     if (typeof window !== 'undefined' && 'DeviceMotionEvent' in window) {
       // 某些浏览器需要用户授权
       if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
-        // iOS 13+ 需要用户授权
-        const button = document.createElement('button')
-        button.textContent = '允许摇晃交互'
-        button.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;padding:10px 20px;background:#ec4899;color:white;border:none;border-radius:8px;font-size:14px;'
-        button.onclick = async () => {
-          try {
-            const response = await (DeviceMotionEvent as any).requestPermission()
-            if (response === 'granted') {
-              window.addEventListener('devicemotion', handleDeviceMotion)
-              button.remove()
-            }
-          } catch (error) {
-            console.error('Error requesting device motion permission:', error)
-          }
-        }
-        // 只在移动设备上显示按钮
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-          document.body.appendChild(button)
-          // 3秒后自动隐藏按钮
-          setTimeout(() => button.remove(), 3000)
-        }
+        // iOS 13+ 需要用户授权 - 静默请求，不显示按钮
+        // 用户首次点击emoji时会触发授权
       } else {
         // Android 和旧版 iOS 直接监听
         window.addEventListener('devicemotion', handleDeviceMotion)
@@ -150,6 +190,54 @@ const Hero = () => {
 
     return () => {
       window.removeEventListener('devicemotion', handleDeviceMotion)
+    }
+  }, [])
+
+  // 设备倾斜重力感应（仅移动端）
+  useEffect(() => {
+    let logCount = 0
+    
+    // 创建持久的监听器处理函数
+    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
+      const beta = event.beta || 0  // 前后倾斜
+      const gamma = event.gamma || 0 // 左右倾斜
+      
+      // 转换倾斜角度为重力加速度
+      const gravityX = Math.max(-1, Math.min(1, gamma / 45)) // 45度为最大倾斜
+      const gravityY = Math.max(-0.5, Math.min(0.5, (beta - 90) / 90))
+      
+      setDeviceGravity({ x: gravityX, y: gravityY })
+      
+      // 每秒输出一次调试信息
+      logCount++
+      if (logCount % 30 === 0) { // 假设30fps
+        console.log('🌐 Tilt:', { 
+          gamma: gamma.toFixed(1), 
+          beta: beta.toFixed(1), 
+          gravityX: gravityX.toFixed(2), 
+          gravityY: gravityY.toFixed(2) 
+        })
+      }
+    }
+    
+    // 保存监听器引用
+    orientationHandlerRef.current = handleDeviceOrientation
+    
+    // 检查是否支持 DeviceOrientation API
+    if (typeof window !== 'undefined' && 'DeviceOrientationEvent' in window) {
+      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+        console.log('📱 iOS device - gravity will be enabled after first emoji touch')
+      } else {
+        // Android 和旧版 iOS 直接启用
+        window.addEventListener('deviceorientation', handleDeviceOrientation)
+        console.log('✅ DeviceOrientation active (Android/old iOS)')
+      }
+    }
+    
+    return () => {
+      if (orientationHandlerRef.current) {
+        window.removeEventListener('deviceorientation', orientationHandlerRef.current)
+      }
     }
   }, [])
 
@@ -167,46 +255,82 @@ const Hero = () => {
         const newPhysics = prevPhysics.map((physics, i) => {
           let { x, y, vx, vy, originalX, originalY } = physics
           const emoji = emojis[i]
+          const isMobile = window.innerWidth < 768
 
-          // 鼠标相关计算
-          const mouseX = mousePos.x - rect.left
-          const mouseY = mousePos.y - rect.top
-          const dxToMouse = mouseX - x
-          const dyToMouse = mouseY - y
-          const distanceToMouse = Math.sqrt(dxToMouse * dxToMouse + dyToMouse * dyToMouse)
-
-          // 控制范围：500px内受鼠标影响（增大范围）
-          const controlRadius = 500
-          const isInControl = isHovering && distanceToMouse < controlRadius
-
-          if (isInControl) {
-            // 鼠标驱赶力（推开emoji）- 增大推力和范围
-            if (distanceToMouse > 0 && distanceToMouse < 250) {
-              const repelForce = (250 - distanceToMouse) / 250 * 1.5
-              vx -= (dxToMouse / distanceToMouse) * repelForce
-              vy -= (dyToMouse / distanceToMouse) * repelForce
+          if (isMobile) {
+            // 手机端：重力物理
+            // 持续的重力加速度（向下为负，y减小）
+            vy -= 1.2
+            
+            // 设备倾斜重力影响（增强效果）
+            // gamma倾斜：向右倾斜时emoji向右移动
+            vx += deviceGravity.x * 1.5 // 增强水平重力影响
+            // beta倾斜：可选的垂直影响（前后倾斜时稍微影响下落速度）
+            vy -= deviceGravity.y * 0.5 // 增强垂直重力影响
+            
+            // 地面碰撞（屏幕底部边界，紧贴底部）
+            const ground = 20 // 距离底部20px
+            if (y <= ground) {
+              y = ground
+              
+              // 明显的弹性反弹效果
+              if (Math.abs(vy) < 1) {
+                // 速度很小时完全停止
+                vy = 0
+                vx *= 0.7 // 强摩擦力，快速停止
+              } else {
+                // 有明显弹性的反弹，逐次消减（50%弹性，更明显）
+                vy = -vy * 0.5
+                vx *= 0.88 // 摩擦力消减水平速度
+              }
             }
             
-            // 吸引力（在远处时轻微吸引）
-            if (distanceToMouse > 250 && distanceToMouse < controlRadius) {
-              const attractForce = ((distanceToMouse - 250) / (controlRadius - 250)) * 0.2
-              vx += (dxToMouse / distanceToMouse) * attractForce
-              vy += (dyToMouse / distanceToMouse) * attractForce
+            // 左右边界碰撞
+            const screenWidth = window.innerWidth
+            if (x < 50) {
+              x = 50
+              vx = Math.abs(vx) * 0.6
+            } else if (x > screenWidth - 50) {
+              x = screenWidth - 50
+              vx = -Math.abs(vx) * 0.6
             }
           } else {
-            // 脱离控制：回归原位
-            const dxToOriginal = originalX - x
-            const dyToOriginal = originalY - y
-            const distanceToOriginal = Math.sqrt(dxToOriginal * dxToOriginal + dyToOriginal * dyToOriginal)
-            
-            if (distanceToOriginal > 1) {
-              const returnForce = Math.min(distanceToOriginal * 0.02, 0.5)
-              vx += (dxToOriginal / distanceToOriginal) * returnForce
-              vy += (dyToOriginal / distanceToOriginal) * returnForce
+            // 桌面端：原有鼠标交互逻辑
+            const mouseX = mousePos.x - rect.left
+            const mouseY = mousePos.y - rect.top
+            const dxToMouse = mouseX - x
+            const dyToMouse = mouseY - y
+            const distanceToMouse = Math.sqrt(dxToMouse * dxToMouse + dyToMouse * dyToMouse)
+
+            const controlRadius = 500
+            const isInControl = isHovering && distanceToMouse < controlRadius
+
+            if (isInControl) {
+              if (distanceToMouse > 0 && distanceToMouse < 250) {
+                const repelForce = (250 - distanceToMouse) / 250 * 1.5
+                vx -= (dxToMouse / distanceToMouse) * repelForce
+                vy -= (dyToMouse / distanceToMouse) * repelForce
+              }
+              
+              if (distanceToMouse > 250 && distanceToMouse < controlRadius) {
+                const attractForce = ((distanceToMouse - 250) / (controlRadius - 250)) * 0.2
+                vx += (dxToMouse / distanceToMouse) * attractForce
+                vy += (dyToMouse / distanceToMouse) * attractForce
+              }
+            } else {
+              const dxToOriginal = originalX - x
+              const dyToOriginal = originalY - y
+              const distanceToOriginal = Math.sqrt(dxToOriginal * dxToOriginal + dyToOriginal * dyToOriginal)
+              
+              if (distanceToOriginal > 1) {
+                const returnForce = Math.min(distanceToOriginal * 0.02, 0.5)
+                vx += (dxToOriginal / distanceToOriginal) * returnForce
+                vy += (dyToOriginal / distanceToOriginal) * returnForce
+              }
             }
           }
 
-          // emoji之间的碰撞排斥力
+          // emoji之间的碰撞排斥力（手机端和桌面端都需要）
           for (let j = 0; j < prevPhysics.length; j++) {
             if (i === j) continue
 
@@ -214,50 +338,93 @@ const Hero = () => {
             const dx = x - other.x
             const dy = y - other.y
             const distance = Math.sqrt(dx * dx + dy * dy)
-            const minDistance = emoji.radius + emojis[j].radius
+            const minDistance = isMobile ? 45 : (emoji.radius + emojis[j].radius)
 
             if (distance < minDistance && distance > 0) {
-              // 碰撞排斥力
-              const collisionForce = (minDistance - distance) / minDistance * 0.6
-              vx += (dx / distance) * collisionForce
-              vy += (dy / distance) * collisionForce
+              let collisionForce
+              if (isMobile) {
+                // 在空中时几乎无碰撞力，让emoji能自由落下
+                if (y > 100 || other.y > 100) {
+                  collisionForce = (minDistance - distance) / minDistance * 0.2 // 空中碰撞极弱
+                } else {
+                  // 只在都接近地面时才有强碰撞力
+                  collisionForce = (minDistance - distance) / minDistance * 2.0
+                }
+              } else {
+                collisionForce = (minDistance - distance) / minDistance * 0.6
+              }
+              
+              const pushX = (dx / distance) * collisionForce
+              const pushY = (dy / distance) * collisionForce
+              
+              vx += pushX
+              vy += pushY
+              
+              // 地面附近的堆叠优化（只影响底层emoji）
+              if (isMobile && y < 80 && other.y < 80) {
+                // 在地面时，减少垂直推力，增强堆叠稳定性
+                vy *= 0.5
+                vx *= 0.9
+              }
             }
           }
 
-          // 阻力（空气阻力）
-          const damping = 0.92
-          vx *= damping
-          vy *= damping
+          // 阻力
+          if (isMobile) {
+            // 只在地面且速度几乎为0时才完全停止
+            if (y <= 40 && Math.abs(vx) < 0.3 && Math.abs(vy) < 0.3) {
+              vx = 0
+              vy = 0
+            } else {
+              // 极小的空气阻力，几乎不影响下落
+              vx *= 0.997
+              vy *= 0.999 // 垂直方向阻力极小，确保能落到底部
+            }
+          } else {
+            vx *= 0.92
+            vy *= 0.92
+          }
 
-          // 速度限制（增大最大速度）
-          const maxSpeed = 25
-          const speed = Math.sqrt(vx * vx + vy * vy)
-          if (speed > maxSpeed) {
-            vx = (vx / speed) * maxSpeed
-            vy = (vy / speed) * maxSpeed
+          // 速度限制（手机端不限制垂直速度，确保能快速落到底部）
+          if (isMobile) {
+            // 只限制水平速度
+            const maxSpeedX = 30
+            if (Math.abs(vx) > maxSpeedX) {
+              vx = (vx / Math.abs(vx)) * maxSpeedX
+            }
+            // 垂直速度不限制，让重力自然作用
+          } else {
+            const maxSpeed = 25
+            const speed = Math.sqrt(vx * vx + vy * vy)
+            if (speed > maxSpeed) {
+              vx = (vx / speed) * maxSpeed
+              vy = (vy / speed) * maxSpeed
+            }
           }
 
           // 更新位置
           x += vx
           y += vy
 
-          // 边界约束（柔性边界）
-          const padding = 50
-          if (x < padding) {
-            x = padding
-            vx *= -0.5
-          }
-          if (x > rect.width - padding) {
-            x = rect.width - padding
-            vx *= -0.5
-          }
-          if (y < padding) {
-            y = padding
-            vy *= -0.5
-          }
-          if (y > rect.height - padding) {
-            y = rect.height - padding
-            vy *= -0.5
+          // 边界约束（仅桌面端，手机端已在重力物理中处理）
+          if (!isMobile) {
+            const padding = 50
+            if (x < padding) {
+              x = padding
+              vx *= -0.5
+            }
+            if (x > rect.width - padding) {
+              x = rect.width - padding
+              vx *= -0.5
+            }
+            if (y < padding) {
+              y = padding
+              vy *= -0.5
+            }
+            if (y > rect.height - padding) {
+              y = rect.height - padding
+              vy *= -0.5
+            }
           }
 
           return { x, y, vx, vy, originalX, originalY }
@@ -276,7 +443,7 @@ const Hero = () => {
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [mousePos, isHovering, emojiPhysics.length])
+  }, [mousePos, isHovering, emojiPhysics.length, deviceGravity])
 
   // 计算emoji的动态位置 - 物理引擎驱动
   const getEmojiStyle = (emoji: any, index: number) => {
@@ -571,9 +738,50 @@ const Hero = () => {
           return (
             <div
               key={index}
-              className={`absolute ${emojiData.size} cursor-pointer pointer-events-auto`}
+              className={`absolute ${emojiData.size} cursor-pointer pointer-events-auto transition-transform duration-100 hover:scale-110`}
               style={{
                 ...combinedStyle
+              }}
+              onClick={() => {
+                // 桌面端点击产生范围冲击波效果
+                if (emojiPhysics.length > 0) {
+                  const clickedPhysics = emojiPhysics[index]
+                  const impactRadius = 250 // 桌面端更大的冲击半径
+                  
+                  setEmojiPhysics(prev => 
+                    prev.map((p, i) => {
+                      if (i === index) {
+                        // 被点击的emoji：强力反应
+                        return {
+                          ...p,
+                          vy: p.vy + 30,
+                          vx: p.vx + (Math.random() - 0.5) * 15
+                        }
+                      } else {
+                        // 计算与点击位置的距离
+                        const dx = p.x - clickedPhysics.x
+                        const dy = p.y - clickedPhysics.y
+                        const distance = Math.sqrt(dx * dx + dy * dy)
+                        
+                        if (distance < impactRadius) {
+                          // 在冲击范围内，施加向外推的力
+                          const impactStrength = (impactRadius - distance) / impactRadius
+                          const pushForce = impactStrength * 20
+                          
+                          const dirX = distance > 0 ? dx / distance : (Math.random() - 0.5)
+                          const dirY = distance > 0 ? dy / distance : (Math.random() - 0.5)
+                          
+                          return {
+                            ...p,
+                            vx: p.vx + dirX * pushForce,
+                            vy: p.vy + dirY * pushForce + 8
+                          }
+                        }
+                        return p
+                      }
+                    })
+                  )
+                }
               }}
             >
               {emojiData.emoji}
@@ -582,81 +790,217 @@ const Hero = () => {
         })}
       </div>
 
-      {/* Mobile: Emoji pile at bottom - 手机端底部emoji堆 */}
-      <div className="md:hidden absolute bottom-8 left-0 right-0 z-0 pointer-events-none">
-        <div className="flex flex-wrap justify-center gap-3 px-6">
-          {emojis.map((emojiData, index) => {
-            const dynamicStyle = getEmojiStyle(emojiData, index)
-            
-            return (
-              <div
-                key={index}
-                className="text-3xl cursor-pointer pointer-events-auto transition-transform duration-300 hover:scale-125 active:scale-95"
-                style={{
-                  ...dynamicStyle,
-                  animation: `float-subtle ${2 + (index % 3)}s ease-in-out infinite`,
-                  animationDelay: `${index * 0.1}s`
-                }}
-                onClick={() => {
-                  // 点击时给emoji添加随机力
-                  if (emojiPhysics.length > 0) {
-                    setEmojiPhysics(prev => 
-                      prev.map((physics, i) => 
-                        i === index ? {
-                          ...physics,
-                          vx: physics.vx + (Math.random() - 0.5) * 50,
-                          vy: physics.vy - Math.random() * 80 - 40
-                        } : physics
-                      )
-                    )
+      {/* Mobile: Emoji pile at bottom - 手机端底部emoji堆（重力堆叠） */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-screen z-50 pointer-events-none overflow-hidden">
+        {emojis.map((emojiData, index) => {
+          if (emojiPhysics.length === 0) return null
+          
+          const physics = emojiPhysics[index]
+          if (!physics) return null
+          
+          // 确保emoji在可见范围内
+          const clampedX = Math.max(40, Math.min(physics.x, window.innerWidth - 40))
+          // 转换为top定位：screenHeight - y = 从顶部的距离
+          const topPosition = Math.max(0, Math.min(window.innerHeight, window.innerHeight - physics.y))
+          
+          return (
+            <div
+              key={index}
+              className={`absolute text-3xl cursor-pointer pointer-events-auto transition-all duration-100 ease-out ${
+                draggedEmoji === index ? 'scale-110 brightness-125' : 'scale-100'
+              }`}
+              style={{
+                left: `${clampedX}px`,
+                top: `${topPosition}px`,
+                transform: 'translate(-50%, 0)',
+                willChange: 'left, top, transform',
+                filter: draggedEmoji === index ? 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' : 'none'
+              }}
+              onTouchStart={(e) => {
+                const touch = e.touches[0]
+                setDraggedEmoji(index)
+                setDragStart({ x: touch.clientX, y: touch.clientY })
+                
+                // 触觉反馈（如果设备支持）
+                if (navigator.vibrate) {
+                  navigator.vibrate([10, 5, 10]) // 更强的震动模式
+                }
+                
+                // 请求设备方向权限（iOS 13+）- 只请求一次
+                if (!orientationPermissionGranted && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+                  console.log('📱 Requesting DeviceOrientation permission...')
+                  
+                  const requestPermission = async () => {
+                    try {
+                      const response = await (DeviceOrientationEvent as any).requestPermission()
+                      console.log('Response:', response)
+                      
+                      if (response === 'granted') {
+                        setOrientationPermissionGranted(true)
+                        
+                        // 使用持久的监听器引用
+                        if (orientationHandlerRef.current) {
+                          window.addEventListener('deviceorientation', orientationHandlerRef.current)
+                          console.log('✅ Gravity enabled! Tilt your phone to see emojis move!')
+                          
+                          // 震动反馈
+                          if (navigator.vibrate) {
+                            navigator.vibrate([50, 30, 50])
+                          }
+                          
+                          // 测试输出当前重力
+                          setTimeout(() => {
+                            console.log('Current gravity:', deviceGravity)
+                          }, 1000)
+                        }
+                      } else {
+                        console.log('❌ Permission denied')
+                      }
+                    } catch (error) {
+                      console.error('❌ Error:', error)
+                    }
                   }
-                }}
-              >
-                {emojiData.emoji}
-              </div>
-            )
-          })}
-        </div>
+                  
+                  requestPermission()
+                }
+                
+                // 点击产生范围冲击波效果
+                const clickedPhysics = emojiPhysics[index]
+                const impactRadius = 200 // 冲击波半径（像素）
+                
+                setEmojiPhysics(prev => 
+                  prev.map((p, i) => {
+                    if (i === index) {
+                      // 被点击的emoji：强力向上弹跳
+                      return {
+                        ...p,
+                        vy: p.vy + 35, // 更强的向上冲击
+                        vx: p.vx + (Math.random() - 0.5) * 12
+                      }
+                    } else {
+                      // 计算与点击位置的距离
+                      const dx = p.x - clickedPhysics.x
+                      const dy = p.y - clickedPhysics.y
+                      const distance = Math.sqrt(dx * dx + dy * dy)
+                      
+                      if (distance < impactRadius) {
+                        // 在冲击范围内，施加向外推的力
+                        const impactStrength = (impactRadius - distance) / impactRadius
+                        const pushForce = impactStrength * 25 // 最大推力25
+                        
+                        // 归一化方向向量
+                        const dirX = distance > 0 ? dx / distance : (Math.random() - 0.5)
+                        const dirY = distance > 0 ? dy / distance : (Math.random() - 0.5)
+                        
+                        return {
+                          ...p,
+                          vx: p.vx + dirX * pushForce,
+                          vy: p.vy + dirY * pushForce + 10 // 额外的向上推力
+                        }
+                      }
+                      return p
+                    }
+                  })
+                )
+              }}
+              onTouchMove={(e) => {
+                if (draggedEmoji === index) {
+                  e.preventDefault()
+                  const touch = e.touches[0]
+                  const deltaX = touch.clientX - dragStart.x
+                  const deltaY = touch.clientY - dragStart.y
+                  
+                  // 非常响应的滑动跟随 + 强惯性
+                  setEmojiPhysics(prev => 
+                    prev.map((p, i) => 
+                      i === index ? {
+                        ...p,
+                        x: p.x + deltaX * 1.2, // 更快的跟随
+                        y: p.y - deltaY * 1.2, // 屏幕坐标Y向下，物理坐标Y向上
+                        vx: deltaX * 1.0, // 更强的惯性
+                        vy: -deltaY * 1.0
+                      } : p
+                    )
+                  )
+                  
+                  setDragStart({ x: touch.clientX, y: touch.clientY })
+                }
+              }}
+              onTouchEnd={() => {
+                // 滑动结束时保持惯性，并给予额外的推力效果
+                if (draggedEmoji === index) {
+                  // 触觉反馈
+                  if (navigator.vibrate) {
+                    navigator.vibrate(15) // 稍长的震动15ms
+                  }
+                  
+                  setEmojiPhysics(prev => 
+                    prev.map((p, i) => 
+                      i === index ? {
+                        ...p,
+                        // 保持当前速度，让惯性效果更明显
+                        vx: p.vx * 1.3, // 额外增强30%
+                        vy: p.vy * 1.3
+                      } : p
+                    )
+                  )
+                }
+                setDraggedEmoji(null)
+              }}
+            >
+              {emojiData.emoji}
+            </div>
+          )
+        })}
       </div>
       
-      <div className="container max-w-7xl pt-40 pb-32 relative z-10 px-4 sm:px-6 lg:px-8">
+      <div className="container max-w-7xl pt-36 md:pt-40 pb-32 relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 text-gray-300 text-sm font-medium mb-10 rounded-full border border-gray-700/50">
-            <Star className="h-4 w-4 mr-2 text-gray-400" />
-            <span>{t('hero.badge')}</span>
-          </div>
+          <ScrollReveal delay={0}>
+            {/* Badge */}
+            <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 text-gray-300 text-sm font-medium mb-10 rounded-full border border-gray-700/50">
+              <Star className="h-4 w-4 mr-2 text-gray-400" />
+              <span>{t('hero.badge')}</span>
+            </div>
+          </ScrollReveal>
           
-          {/* Main Headline */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black mb-12 leading-tight tracking-tight font-poetsen">
-            {titleVisible ? (
-              <span 
-                className="inline-block bg-gradient-to-r from-pink-500 via-pink-400 to-green-500 bg-clip-text text-transparent animate-gradient-x"
-                style={{
-                  backgroundSize: '200% 200%',
-                  paddingLeft: '0.5em',
-                  paddingRight: '0.5em'
-                }}
-              >
-                BloomFluence
-              </span>
-            ) : (
-              <span className="opacity-0">BloomFluence</span>
-            )}
-          </h1>
+          <ScrollReveal delay={150}>
+            {/* Main Headline */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-12 leading-tight tracking-tight font-poetsen text-center">
+              {titleVisible ? (
+                <span 
+                  className="inline-block bg-gradient-to-r from-pink-500 via-pink-400 to-green-500 bg-clip-text text-transparent animate-gradient-x"
+                  style={{
+                    backgroundSize: '200% 200%',
+                    paddingLeft: '0.5em',
+                    paddingRight: '0.5em'
+                  }}
+                >
+                  BloomFluence
+                </span>
+              ) : (
+                <span className="opacity-0">BloomFluence</span>
+              )}
+            </h1>
+          </ScrollReveal>
           
-          {/* Mission Statement */}
-          <h2 className={`text-2xl md:text-4xl font-bold text-white mb-4 -mt-6 whitespace-pre-line ${language === 'zh' ? 'font-sans' : 'font-sf-pro'}`}>
-            {t('hero.mission')}
-          </h2>
+          <ScrollReveal delay={300}>
+            {/* Mission Statement */}
+            <h2 className={`text-2xl md:text-4xl font-bold text-white mb-4 -mt-6 whitespace-pre-line ${language === 'zh' ? 'font-sans' : 'font-sf-pro'}`}>
+              {t('hero.mission')}
+            </h2>
+          </ScrollReveal>
 
-          {/* Subtitle */}
-          <p className="text-base md:text-lg text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-            {t('hero.subtitle')}
-          </p>
+          <ScrollReveal delay={450}>
+            {/* Subtitle */}
+            <p className="text-base md:text-lg text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+              {t('hero.subtitle')}
+            </p>
+          </ScrollReveal>
           
-          {/* CTA Buttons */}
-          <div className="flex flex-row gap-3 md:gap-4 justify-center items-center mb-12">
+          <ScrollReveal delay={600}>
+            {/* CTA Buttons */}
+            <div className="flex flex-row gap-3 md:gap-4 justify-center items-center mb-12">
             <a
               href="#demo"
               className="relative bg-white text-gray-900 font-medium py-2 px-4 md:px-6 rounded-lg transition-all duration-300 hover:bg-gray-50 inline-flex items-center group overflow-hidden"
@@ -684,6 +1028,7 @@ const Hero = () => {
               <span className="relative z-10">{t('hero.learnMore')}</span>
             </a>
           </div>
+          </ScrollReveal>
           
           {/* Testimonials Section */}
           <div className="relative mb-20 mt-20 overflow-hidden">
@@ -796,14 +1141,9 @@ const Hero = () => {
             </div>
           </div>
           
-          {/* Stats */}
-          <div className="stats-section relative grid grid-cols-2 md:flex md:justify-center md:items-center gap-8 md:gap-16 max-w-5xl mx-auto -mt-6">
-            {/* Mobile: Vertical divider line (center) */}
-            <div className="md:hidden absolute left-1/2 top-0 bottom-0 w-px bg-gray-700 -translate-x-1/2"></div>
-            
-            {/* Mobile: Horizontal divider line (center) */}
-            <div className="md:hidden absolute top-1/2 left-0 right-0 h-px bg-gray-700 -translate-y-1/2"></div>
-            
+          <ScrollReveal delay={200}>
+            {/* Stats */}
+            <div className="stats-section grid grid-cols-2 md:flex md:justify-center md:items-center gap-8 md:gap-16 max-w-5xl mx-auto -mt-6">
             <div className="text-center group md:min-w-[100px]">
               <div className="text-3xl font-bold text-white mb-2 transition-colors duration-300">
                 {animatedValues.influencers}M+
@@ -838,6 +1178,7 @@ const Hero = () => {
               <div className="text-gray-400 text-sm font-medium transition-colors duration-300">Rating</div>
             </div>
           </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

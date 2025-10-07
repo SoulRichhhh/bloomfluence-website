@@ -1,6 +1,7 @@
 import React from 'react'
 import { ArrowRight, CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const Process = () => {
   const { t } = useLanguage()
@@ -71,9 +72,10 @@ const Process = () => {
       <div className="w-full">
         {processes.map((process, index) => (
           <React.Fragment key={index}>
-            <div className={`${index % 2 === 1 ? 'bg-gray-50' : 'bg-white'} w-full`}>
-              <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center py-12 md:py-16 lg:py-20">
+            <ScrollReveal delay={0}>
+              <div className={`${index % 2 === 1 ? 'bg-gray-50' : 'bg-white'} w-full`}>
+                <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center py-12 md:py-16 lg:py-20">
                 <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">
                     {process.title}
@@ -123,6 +125,7 @@ const Process = () => {
               </div>
             </div>
           </div>
+          </ScrollReveal>
           </React.Fragment>
         ))}
       </div>

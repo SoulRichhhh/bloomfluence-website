@@ -20,6 +20,31 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // 点击页面其他位置关闭菜单
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      const header = document.querySelector('header')
+      
+      // 如果点击的不是header内的元素，关闭菜单
+      if (header && !header.contains(target)) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    // 延迟添加监听器，避免与菜单按钮的点击事件冲突
+    const timer = setTimeout(() => {
+      document.addEventListener('click', handleClickOutside)
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [isMenuOpen])
+
   const navigation = [
     { name: t('header.services'), href: '#services' },
     { name: t('header.cases'), href: '#cases' },
@@ -74,19 +99,6 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* Language Switcher */}
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
-              className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-300 ${
-                isScrolled
-                  ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  : 'text-white/80 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Globe className="h-4 w-4" />
-              <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中'}</span>
-            </button>
-            
             <a
               href="#login"
               className={`font-medium transition-colors duration-300 px-2.5 py-1.5 rounded-lg text-sm ${
@@ -97,6 +109,20 @@ const Header = () => {
             >
               {t('header.login')}
             </a>
+            
+            {/* Language Switcher */}
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
+              className={`flex items-center space-x-2 py-1.5 px-3 rounded-lg transition-colors duration-300 font-medium text-sm ${
+                isScrolled
+                  ? 'text-gray-600 bg-gray-100 hover:text-gray-900 hover:bg-gray-200'
+                  : 'text-white/80 bg-white/10 hover:text-white hover:bg-white/20'
+              }`}
+            >
+              <Globe className="h-4 w-4" />
+              <span>{language === 'en' ? 'EN' : '中'}</span>
+            </button>
+            
             <a
               href="#demo"
               className={`font-medium py-1.5 px-3 rounded-lg transition-all duration-300 text-sm ${
@@ -149,19 +175,6 @@ const Header = () => {
               <div className={`pt-4 space-y-3 border-t ${
                 isScrolled ? 'border-gray-200' : 'border-gray-800'
               }`}>
-                {/* Language Switcher for Mobile */}
-                <button
-                  onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
-                  className={`w-full flex items-center justify-center space-x-2 px-4 py-3 font-medium transition-colors rounded-lg ${
-                    isScrolled
-                      ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                      : 'text-white/80 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  <Globe className="h-4 w-4" />
-                  <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中'}</span>
-                </button>
-                
                 <a
                   href="#login"
                   className={`block px-4 py-3 font-medium transition-colors rounded-lg ${
@@ -172,9 +185,23 @@ const Header = () => {
                 >
                   {t('header.login')}
                 </a>
+                
+                {/* Language Switcher for Mobile */}
+                <button
+                  onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
+                  className={`w-full flex items-center justify-center space-x-2 px-4 py-3 font-medium transition-colors rounded-lg ${
+                    isScrolled
+                      ? 'text-gray-600 bg-gray-100 hover:text-gray-900 hover:bg-gray-200'
+                      : 'text-white/80 bg-white/10 hover:text-white hover:bg-white/20'
+                  }`}
+                >
+                  <Globe className="h-4 w-4" />
+                  <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中'}</span>
+                </button>
+                
                 <a
                   href="#demo"
-                  className={`block px-3 py-2 font-medium text-center rounded-lg transition-all duration-300 text-sm ${
+                  className={`block px-4 py-3 font-medium text-center rounded-lg transition-all duration-300 text-sm ${
                     isScrolled 
                       ? 'text-white bg-black hover:bg-gray-900' 
                       : 'text-gray-900 bg-white hover:bg-gray-50'

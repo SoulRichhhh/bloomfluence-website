@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const WhoWePower = () => {
   const { t } = useLanguage()
@@ -58,36 +59,41 @@ const WhoWePower = () => {
     <section id="whowpower" className="py-20 bg-white" style={{ scrollMarginTop: '240px' }}>
       <div className="container max-w-7xl">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              {t('whowpower.title')}
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600">
-              {t('whowpower.subtitle')}
-            </p>
-          </div>
-
-          {/* Tab Navigation */}
-          <div className="flex justify-center mb-16">
-            <div className="bg-gray-100 rounded-2xl p-2 inline-flex">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-white text-primary-600 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                {t('whowpower.title')}
+              </h2>
+              <p className="text-lg md:text-xl text-gray-600">
+                {t('whowpower.subtitle')}
+              </p>
             </div>
-          </div>
+          </ScrollReveal>
 
-          {/* Tab Content */}
-          <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
+          <ScrollReveal delay={200}>
+            {/* Tab Navigation */}
+            <div className="flex justify-center mb-16">
+              <div className="bg-gray-100 rounded-2xl p-2 inline-flex">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                      activeTab === tab.id
+                        ? 'bg-white text-primary-600 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={400}>
+            {/* Tab Content */}
+            <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="max-w-3xl mx-auto text-center">
               <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
                 {content[activeTab as keyof typeof content].description}
@@ -111,6 +117,7 @@ const WhoWePower = () => {
               </a>
             </div>
           </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

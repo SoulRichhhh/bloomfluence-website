@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { CheckCircle, ArrowRight, Star } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const Guarantee = () => {
   const { t } = useLanguage()
@@ -72,25 +73,28 @@ const Guarantee = () => {
   return (
     <section className="pt-24 pb-40 bg-black text-white relative overflow-hidden">
       <div className="container max-w-7xl relative z-10 px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black text-sm font-medium mb-6 rounded-full">
-            <Star className="h-4 w-4" />
-            {t('guarantee.badge')}
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black text-sm font-medium mb-6 rounded-full">
+              <Star className="h-4 w-4" />
+              {t('guarantee.badge')}
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {t('guarantee.title1')}
+              <br />
+              {t('guarantee.title2')}<span className="text-gray-300">{t('guarantee.title3')}</span>
+            </h2>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              {t('guarantee.subtitle')}
+            </p>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('guarantee.title1')}
-            <br />
-            {t('guarantee.title2')}<span className="text-gray-300">{t('guarantee.title3')}</span>
-          </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            {t('guarantee.subtitle')}
-          </p>
-        </div>
+        </ScrollReveal>
 
         {/* Guarantees Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {guarantees.map((guarantee, index) => (
-            <div key={index} className="group flex flex-col relative overflow-hidden guarantee-card-wrapper" style={{ animationDelay: `${index * 0.5}s` }}>
+            <ScrollReveal key={index} delay={index * 150}>
+              <div className="group flex flex-col relative overflow-hidden guarantee-card-wrapper" style={{ animationDelay: `${index * 0.5}s` }}>
               {/* 边框光感层 */}
               <div className="absolute inset-0 rounded-2xl border-light-effect"></div>
               
@@ -131,55 +135,66 @@ const Guarantee = () => {
               </div>
               </div>
             </div>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-40">
+        <div id="contact" className="text-center mt-40 scroll-mt-[100px] md:scroll-mt-20">
           <div className="max-w-2xl mx-auto">
-            {/* Logo */}
-            <div className="flex items-center justify-center mb-4 px-4">
-              <span className="text-2xl sm:text-3xl md:text-5xl font-poetsen text-white">
-                BloomFluence
-              </span>
-            </div>
-            
-            <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
-              {t('guarantee.cta.title1')}
-              <span className="text-gray-300">{t('guarantee.cta.title2')}</span>
-              {t('guarantee.cta.title3')}
-            </h3>
-            <p className="text-lg text-gray-300 mb-8">
-              {t('guarantee.cta.desc')}
-            </p>
-            <a
-              href="#start"
-              className="relative font-medium py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center group overflow-visible"
-              style={{
-                background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #10b981 100%)',
-                backgroundSize: '200% 200%',
-                animation: 'gradient-x 3s ease infinite'
-              }}
-              onMouseMove={handleMouseMove}
-            >
-              {/* Emoji粒子效果 */}
-              {emojis.map(emoji => (
-                <span
-                  key={emoji.id}
-                  className="absolute pointer-events-none text-2xl animate-emoji-burst"
-                  style={{
-                    left: `${emoji.x}px`,
-                    top: `${emoji.y}px`,
-                    '--tx': `${emoji.vx}px`,
-                    '--ty': `${emoji.vy}px`
-                  } as React.CSSProperties}
-                >
-                  {emoji.emoji}
+            <ScrollReveal delay={0}>
+              {/* Logo */}
+              <div className="flex items-center justify-center mb-4 px-4">
+                <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-poetsen text-white">
+                  BloomFluence
                 </span>
-              ))}
-              <span className="relative z-10 text-white">{t('guarantee.cta.button')}</span>
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
-            </a>
+              </div>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={150}>
+              <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
+                {t('guarantee.cta.title1')}
+                <span className="text-gray-300">{t('guarantee.cta.title2')}</span>
+                {t('guarantee.cta.title3')}
+              </h3>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={300}>
+              <p className="text-lg text-gray-300 mb-8">
+                {t('guarantee.cta.desc')}
+              </p>
+            </ScrollReveal>
+            
+            <ScrollReveal delay={450}>
+              <a
+                href="#start"
+                className="relative font-medium py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center group overflow-visible"
+                style={{
+                  background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #10b981 100%)',
+                  backgroundSize: '200% 200%',
+                  animation: 'gradient-x 3s ease infinite'
+                }}
+                onMouseMove={handleMouseMove}
+              >
+                {/* Emoji粒子效果 */}
+                {emojis.map(emoji => (
+                  <span
+                    key={emoji.id}
+                    className="absolute pointer-events-none text-2xl animate-emoji-burst"
+                    style={{
+                      left: `${emoji.x}px`,
+                      top: `${emoji.y}px`,
+                      '--tx': `${emoji.vx}px`,
+                      '--ty': `${emoji.vy}px`
+                    } as React.CSSProperties}
+                  >
+                    {emoji.emoji}
+                  </span>
+                ))}
+                <span className="relative z-10 text-white">{t('guarantee.cta.button')}</span>
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
+              </a>
+            </ScrollReveal>
           </div>
         </div>
       </div>

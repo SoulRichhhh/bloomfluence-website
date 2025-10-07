@@ -1,5 +1,6 @@
 import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import ScrollReveal from './ScrollReveal'
 
 const Partners = () => {
   const { t } = useLanguage()
@@ -30,13 +31,15 @@ const Partners = () => {
 
   return (
     <section id="clients" className="pt-0 pb-20 bg-white overflow-hidden">
-      <div className="container max-w-7xl mb-8">
-        <div className="text-center">
-          <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 bg-clip-text text-transparent">
-            {t('partners.title')}
-          </h2>
+      <ScrollReveal>
+        <div className="container max-w-7xl mb-8">
+          <div className="text-center">
+            <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 bg-clip-text text-transparent">
+              {t('partners.title')}
+            </h2>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
       
       {/* Partners Marquee - 单行轮动 */}
       <div className="relative w-full">
