@@ -40,13 +40,13 @@ const Partners = () => {
       
       {/* Partners Marquee - 单行轮动 */}
       <div className="relative w-full">
-        {/* 左侧渐变蒙层 */}
-        <div className="absolute left-0 top-0 bottom-0 w-48 md:w-56 lg:w-64 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" style={{ 
+        {/* 左侧渐变蒙层 - 手机端隐藏 */}
+        <div className="hidden md:block absolute left-0 top-0 bottom-0 w-48 md:w-56 lg:w-64 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" style={{ 
           left: '0',
           paddingLeft: 'max(1rem, calc((100vw - 80rem) / 2))'
         }}></div>
-        {/* 右侧渐变蒙层 */}
-        <div className="absolute right-0 top-0 bottom-0 w-48 md:w-56 lg:w-64 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" style={{ 
+        {/* 右侧渐变蒙层 - 手机端隐藏 */}
+        <div className="hidden md:block absolute right-0 top-0 bottom-0 w-48 md:w-56 lg:w-64 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" style={{ 
           right: '0',
           paddingRight: 'max(1rem, calc((100vw - 80rem) / 2))'
         }}></div>

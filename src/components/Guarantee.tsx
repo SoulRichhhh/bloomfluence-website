@@ -138,8 +138,8 @@ const Guarantee = () => {
         <div className="text-center mt-40">
           <div className="max-w-2xl mx-auto">
             {/* Logo */}
-            <div className="flex items-center justify-center mb-4">
-              <span className="text-5xl font-poetsen text-white">
+            <div className="flex items-center justify-center mb-4 px-4">
+              <span className="text-3xl sm:text-4xl md:text-5xl font-poetsen text-white">
                 BloomFluence
               </span>
             </div>

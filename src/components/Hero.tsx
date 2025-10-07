@@ -569,9 +569,9 @@ const Hero = () => {
           
           {/* Testimonials Section */}
           <div className="relative mb-20 mt-20 overflow-hidden">
-            {/* Left fade overlay - only covers testimonials area */}
+            {/* Left fade overlay - only covers testimonials area - 手机端隐藏 */}
             <div 
-              className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
+              className="hidden md:block absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
               style={{
                 left: '0px',
                 width: '100px',
@@ -579,9 +579,9 @@ const Hero = () => {
               }}
             ></div>
             
-            {/* Right fade overlay - only covers testimonials area */}
+            {/* Right fade overlay - only covers testimonials area - 手机端隐藏 */}
             <div 
-              className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
+              className="hidden md:block absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
               style={{
                 right: '0px',
                 width: '100px',

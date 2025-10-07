@@ -119,9 +119,9 @@ const Testimonials = () => {
 
   return (
     <section className="py-24 bg-black relative overflow-hidden">
-      {/* Left fade overlay */}
+      {/* Left fade overlay - 手机端隐藏 */}
       <div 
-        className="absolute left-0 top-0 bottom-0 z-30 pointer-events-none"
+        className="hidden md:block absolute left-0 top-0 bottom-0 z-30 pointer-events-none"
         style={{
           left: '0px',
           width: '200px',
@@ -129,9 +129,9 @@ const Testimonials = () => {
         }}
       ></div>
       
-      {/* Right fade overlay */}
+      {/* Right fade overlay - 手机端隐藏 */}
       <div 
-        className="absolute right-0 top-0 bottom-0 z-30 pointer-events-none"
+        className="hidden md:block absolute right-0 top-0 bottom-0 z-30 pointer-events-none"
         style={{
           right: '0px',
           width: '200px',
