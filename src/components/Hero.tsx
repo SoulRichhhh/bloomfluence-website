@@ -556,8 +556,8 @@ const Hero = () => {
         }}></div>
       </div>
 
-      {/* Random Emoji Background Decorations - 避开中心文字区域，支持鼠标聚集 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Random Emoji Background Decorations - 桌面端分散显示，手机端隐藏 */}
+      <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none z-0">
         {emojis.map((emojiData, index) => {
           const positionStyle: React.CSSProperties = {}
           if (emojiData.top !== undefined) positionStyle.top = `${emojiData.top}%`
@@ -580,6 +580,43 @@ const Hero = () => {
             </div>
           )
         })}
+      </div>
+
+      {/* Mobile: Emoji pile at bottom - 手机端底部emoji堆 */}
+      <div className="md:hidden absolute bottom-8 left-0 right-0 z-0 pointer-events-none">
+        <div className="flex flex-wrap justify-center gap-3 px-6">
+          {emojis.map((emojiData, index) => {
+            const dynamicStyle = getEmojiStyle(emojiData, index)
+            
+            return (
+              <div
+                key={index}
+                className="text-3xl cursor-pointer pointer-events-auto transition-transform duration-300 hover:scale-125 active:scale-95"
+                style={{
+                  ...dynamicStyle,
+                  animation: `float-subtle ${2 + (index % 3)}s ease-in-out infinite`,
+                  animationDelay: `${index * 0.1}s`
+                }}
+                onClick={() => {
+                  // 点击时给emoji添加随机力
+                  if (emojiPhysics.length > 0) {
+                    setEmojiPhysics(prev => 
+                      prev.map((physics, i) => 
+                        i === index ? {
+                          ...physics,
+                          vx: physics.vx + (Math.random() - 0.5) * 50,
+                          vy: physics.vy - Math.random() * 80 - 40
+                        } : physics
+                      )
+                    )
+                  }
+                }}
+              >
+                {emojiData.emoji}
+              </div>
+            )
+          })}
+        </div>
       </div>
       
       <div className="container max-w-7xl pt-40 pb-32 relative z-10 px-4 sm:px-6 lg:px-8">
