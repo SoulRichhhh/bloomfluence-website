@@ -1,4 +1,4 @@
-import { Twitter, Linkedin, Github, Mail } from 'lucide-react'
+import { Phone, Mail } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 
 const Footer = () => {
@@ -10,13 +10,6 @@ const Footer = () => {
     { name: t('header.solutions'), href: '#solutions' },
     { name: t('header.clients'), href: '#whowpower' },
     { name: t('header.contact'), href: '#contact' },
-  ]
-
-  const socialLinks = [
-    { name: 'Twitter', href: '#', icon: <Twitter className="h-5 w-5" /> },
-    { name: 'LinkedIn', href: '#', icon: <Linkedin className="h-5 w-5" /> },
-    { name: 'GitHub', href: '#', icon: <Github className="h-5 w-5" /> },
-    { name: 'Email', href: '#', icon: <Mail className="h-5 w-5" /> },
   ]
 
   return (
@@ -43,7 +36,7 @@ const Footer = () => {
               </svg>
             </div>
             <span className="ml-3 text-2xl font-poetsen text-white">
-              BloomFluence
+              BoomFluence
             </span>
           </a>
 
@@ -60,18 +53,77 @@ const Footer = () => {
             ))}
           </nav>
 
-          {/* Social Links */}
-          <div className="flex space-x-5">
-            {socialLinks.map((social) => (
+          {/* Contact Links */}
+          <div className="flex space-x-5 relative z-10">
+            {/* Email */}
+            <a
+              href="mailto:workwithjimmyglobal@gmail.com"
+              className="text-gray-400 hover:text-white transition-colors duration-300"
+              aria-label="Email"
+            >
+              <Mail className="h-5 w-5" />
+            </a>
+
+            {/* WhatsApp */}
+            <div className="relative group">
               <a
-                key={social.name}
-                href={social.href}
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-                aria-label={social.name}
+                href="https://wa.me/8618511146775"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors duration-300 block"
+                aria-label="WhatsApp"
               >
-                {social.icon}
+                <Phone className="h-5 w-5" />
               </a>
-            ))}
+              
+              {/* WhatsApp QR Code */}
+              <div 
+                className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 bg-white rounded-lg border-2 border-gray-800 shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none w-32"
+                style={{ zIndex: 9999 }}
+              >
+                <img 
+                  src="/images/whatsup.png" 
+                  alt="WhatsApp QR Code" 
+                  className="w-full h-auto object-contain block"
+                  onError={(e) => {
+                    console.error('WhatsApp QR image failed to load')
+                    e.currentTarget.style.display = 'none'
+                  }}
+                  onLoad={() => console.log('WhatsApp QR loaded')}
+                />
+                <p className="text-xs text-gray-800 text-center mt-1">WhatsApp</p>
+              </div>
+            </div>
+
+            {/* WeChat */}
+            <div className="relative group">
+              <button
+                className="text-gray-400 hover:text-white transition-colors duration-300"
+                aria-label="WeChat"
+              >
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.248 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>
+                </svg>
+              </button>
+              
+              {/* WeChat QR Code */}
+              <div 
+                className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 bg-white rounded-lg border-2 border-gray-800 shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none w-32"
+                style={{ zIndex: 9999 }}
+              >
+                <img 
+                  src="/images/wechat.png" 
+                  alt="WeChat QR Code" 
+                  className="w-full h-auto object-contain block"
+                  onError={(e) => {
+                    console.error('WeChat QR image failed to load')
+                    e.currentTarget.style.display = 'none'
+                  }}
+                  onLoad={() => console.log('WeChat QR loaded')}
+                />
+                <p className="text-xs text-gray-800 text-center mt-1">WeChat</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -81,7 +133,7 @@ const Footer = () => {
         <div className="container max-w-7xl py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              {t('footer.copyright')}<span className="font-poetsen">BloomFluence</span>{t('footer.rights')}
+              {t('footer.copyright')}<span className="font-poetsen">BoomFluence</span>{t('footer.rights')}
             </div>
             <div className="text-gray-400 text-sm">
               {t('footer.made')}

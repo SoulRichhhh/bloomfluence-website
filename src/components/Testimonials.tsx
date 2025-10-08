@@ -14,7 +14,7 @@ const Testimonials = () => {
       name: "Sarah Chen",
       role: "Tech Influencer",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
-      content: "BloomFluence transformed our influencer marketing. We saw 300% increase in engagement and 150% boost in conversions within just 2 months.",
+      content: "BoomFluence transformed our influencer marketing. We saw 300% increase in engagement and 150% boost in conversions within just 2 months.",
       rating: 5
     },
     {
@@ -38,7 +38,7 @@ const Testimonials = () => {
       name: "David Kim",
       role: "Tech Reviewer",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
-      content: "BloomFluence's automation saved us 20+ hours per week. Our team can focus on strategy instead of manual outreach.",
+      content: "BoomFluence's automation saved us 20+ hours per week. Our team can focus on strategy instead of manual outreach.",
       rating: 5
     },
     {
@@ -70,7 +70,7 @@ const Testimonials = () => {
       name: "James Wilson",
       role: "Travel Blogger",
       avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
-      content: "BloomFluence helped us scale globally. We now work with brands across 15 countries seamlessly.",
+      content: "BoomFluence helped us scale globally. We now work with brands across 15 countries seamlessly.",
       rating: 5
     },
     {

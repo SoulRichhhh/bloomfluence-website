@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Globe } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 
-const Header = () => {
+interface HeaderProps {
+  onGetStartedClick?: () => void
+}
+
+const Header = ({ onGetStartedClick }: HeaderProps) => {
   const { language, setLanguage, t } = useLanguage()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -105,7 +109,7 @@ const Header = () => {
               <span className={`ml-3 text-2xl font-poetsen transition-colors duration-300 ${
                 isScrolled ? 'text-gray-900' : 'text-gray-900 md:text-white'
               }`}>
-                BloomFluence
+                BoomFluence
               </span>
             </a>
           </div>
@@ -130,16 +134,7 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <a
-              href="#login"
-              className={`font-medium transition-colors duration-300 px-2.5 py-1.5 rounded-lg text-sm ${
-                isScrolled 
-                  ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' 
-                  : 'text-white/80 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              {t('header.login')}
-            </a>
+            {/* Sign in button hidden */}
             
             {/* Language Switcher */}
             <button
@@ -154,16 +149,16 @@ const Header = () => {
               <span>{language === 'en' ? 'EN' : '中'}</span>
             </button>
             
-            <a
-              href="#demo"
+            <button
+              onClick={onGetStartedClick}
               className={`font-medium py-1.5 px-3 rounded-lg transition-all duration-300 text-sm ${
                 isScrolled 
                   ? 'text-white bg-black hover:bg-gray-900' 
                   : 'text-gray-900 bg-white hover:bg-gray-50'
               }`}
             >
-              <span className="font-semibold">{t('header.getStarted')}</span>
-            </a>
+              {t('header.getStarted')}
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -192,12 +187,7 @@ const Header = () => {
                 </a>
               ))}
               <div className="pt-4 space-y-3 border-t border-gray-200">
-                <a
-                  href="#login"
-                  className="block px-4 py-3 font-medium transition-colors rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                >
-                  {t('header.login')}
-                </a>
+                {/* Sign in button hidden */}
                 
                 {/* Language Switcher for Mobile */}
                 <button
@@ -208,12 +198,15 @@ const Header = () => {
                   <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中'}</span>
                 </button>
                 
-                <a
-                  href="#demo"
-                  className="block px-4 py-3 font-medium text-center rounded-lg transition-all duration-300 text-sm text-white bg-black hover:bg-gray-900"
+                <button
+                  onClick={() => {
+                    onGetStartedClick?.()
+                    setIsMenuOpen(false)
+                  }}
+                  className="w-full block px-4 py-3 font-medium text-center rounded-lg transition-all duration-300 text-sm text-white bg-black hover:bg-gray-900"
                 >
-                  <span className="font-semibold">{t('header.getStarted')}</span>
-                </a>
+                  {t('header.getStarted')}
+                </button>
               </div>
             </div>
           </div>

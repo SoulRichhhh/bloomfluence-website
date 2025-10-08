@@ -11,9 +11,11 @@ import Testimonials from './components/Testimonials'
 import WhoWePower from './components/WhoWePower'
 import Guarantee from './components/Guarantee'
 import Footer from './components/Footer'
+import WelcomeModal from './components/WelcomeModal'
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,9 +36,9 @@ function App() {
   return (
     <LanguageProvider>
       <div className="min-h-screen bg-white">
-        <Header />
+        <Header onGetStartedClick={() => setShowWelcomeModal(true)} />
         <main>
-          <Hero />
+          <Hero onGetStartedClick={() => setShowWelcomeModal(true)} />
           <Features />
           <CaseStudies />
           <Process />
@@ -57,6 +59,12 @@ function App() {
         >
           <ArrowUp className="h-5 w-5" />
         </button>
+
+        {/* Welcome Modal */}
+        <WelcomeModal 
+          isOpen={showWelcomeModal} 
+          onClose={() => setShowWelcomeModal(false)} 
+        />
       </div>
     </LanguageProvider>
   )

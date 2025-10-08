@@ -37,7 +37,7 @@ const translations = {
     
     // Process
     'process.title1': 'One click to launch an expert-level campaign',
-    'process.desc1': 'Simply paste your website URL - BloomFluence delivers a campaign that\'s launch-ready: precise targeting and core selling points, platform selection, geographic reach, and budget plan. All in under a minute, with no manual input.',
+    'process.desc1': 'Simply paste your website URL - BoomFluence delivers a campaign that\'s launch-ready: precise targeting and core selling points, platform selection, geographic reach, and budget plan. All in under a minute, with no manual input.',
     'process.feature1.1': 'Market positioning & audience profiling',
     'process.feature1.2': 'Core value & messaging framework',
     'process.feature1.3': 'Channel & region strategy',
@@ -46,39 +46,39 @@ const translations = {
     'process.statDesc1': 'Takes just 5 minutes to generate a full brand strategy vs. 1–2 days manually.',
     
     'process.title2': 'From 50M+ influencers, AI identifies the ones who truly match your brand',
-    'process.desc2': 'BloomFluence\'s influencer matching engine analyzes 237+ behavioral signals with LLMs trained on millions of successful brand-influencer collaborations, adapting to real-time trends and audience data to deliver precise, ROI-driven recommendations.',
+    'process.desc2': 'BoomFluence\'s influencer matching engine analyzes 237+ behavioral signals with LLMs trained on millions of successful brand-influencer collaborations, adapting to real-time trends and audience data to deliver precise, ROI-driven recommendations.',
     'process.feature2.1': '237+ dimensions behavioral analysis',
     'process.feature2.2': 'Brand-aligned audience matching',
     'process.feature2.3': 'LLM-powered fit prediction & ROI scoring',
     'process.feature2.4': 'Social insights across all major platforms',
     'process.stat2': '100,000× wider reach',
-    'process.statDesc2': 'A human team can review and match about 500 influencers per day; BloomFluence scanned 50M+ and matched us with perfectly aligned influencers in just hour.',
+    'process.statDesc2': 'A human team can review and match about 500 influencers per day; BoomFluence scanned 50M+ and matched us with perfectly aligned influencers in just hour.',
     
     'process.title3': 'AI negotiates the best price and terms — then delivers ready-to-launch influencers',
-    'process.desc3': 'BloomFluence automates the full workflow—from initial outreach to best-price negotiation and secured partnerships and contract signing—so you move faster with zero manual effort.',
+    'process.desc3': 'BoomFluence automates the full workflow—from initial outreach to best-price negotiation and secured partnerships and contract signing—so you move faster with zero manual effort.',
     'process.feature3.1': 'Automatic outreach',
     'process.feature3.2': 'Price negotiation',
     'process.feature3.3': 'Collaboration established',
     'process.feature3.4': 'Signing contract',
     'process.stat3': '5-10x efficiency',
-    'process.statDesc3': 'Instead of spending weeks chasing and negotiating with influencers, BloomFluence delivered a ready-to-go roster of fully aligned, contract-signed influencers in just days.',
+    'process.statDesc3': 'Instead of spending weeks chasing and negotiating with influencers, BoomFluence delivered a ready-to-go roster of fully aligned, contract-signed influencers in just days.',
     
     'process.title4': 'Creative oversight at the highest standard. Guaranteed final results.',
-    'process.desc4': 'BloomFluence ensures influencers follow your brand vision—every step from script to final video delivery is monitored and optimized for quality, consistency, and brand safety.',
+    'process.desc4': 'BoomFluence ensures influencers follow your brand vision—every step from script to final video delivery is monitored and optimized for quality, consistency, and brand safety.',
     'process.feature4.1': 'Brand guidelines submission',
     'process.feature4.2': 'Script alignment',
     'process.feature4.3': 'Multi-round revisions',
     'process.feature4.4': 'Guaranteed publishment',
     'process.stat4': '100% guaranteed',
-    'process.statDesc4': 'BloomFluence\'s process oversight kept every influencer aligned, enabling rapid production of consistent, high-quality contents at scale.',
+    'process.statDesc4': 'BoomFluence\'s process oversight kept every influencer aligned, enabling rapid production of consistent, high-quality contents at scale.',
     
     'process.title5': 'AI reviews data and optimizes every campaign for better results',
-    'process.desc5': 'Track every influencer\'s performance with precision. BloomFluence automatically analyzes real-time metrics and campaign outcomes—surfacing ROI insights, identifying top performers, and continuously optimizing your strategy.',
+    'process.desc5': 'Track every influencer\'s performance with precision. BoomFluence automatically analyzes real-time metrics and campaign outcomes—surfacing ROI insights, identifying top performers, and continuously optimizing your strategy.',
     'process.feature5.1': 'Influencer-level breakdown',
     'process.feature5.2': 'Key metrics tracked',
     'process.feature5.3': 'Real-time optimization',
     'process.stat5': '22x conversion rate',
-    'process.statDesc5': 'With BloomFluence, our conversion rate hit 22.19%—far above the 1–3% we normally see in our industry.',
+    'process.statDesc5': 'With BoomFluence, our conversion rate hit 22.19%—far above the 1–3% we normally see in our industry.',
     
     // Who We Power
     'whowpower.title': 'Who We Power',
@@ -86,7 +86,7 @@ const translations = {
     'whowpower.startup': 'Startup',
     'whowpower.enterprise': 'Enterprise',
     'whowpower.agency': 'Agency',
-    'whowpower.startup.desc': 'Skip the hiring and long ramp-up. BloomFluence gets your campaigns live in hours, tapping into 50M+ influencers worldwide with smart pricing and fully automated execution.',
+    'whowpower.startup.desc': 'Skip the hiring and long ramp-up. BoomFluence gets your campaigns live in hours, tapping into 50M+ influencers worldwide with smart pricing and fully automated execution.',
     'whowpower.enterprise.desc': 'Scale your influencer marketing across multiple brands and regions with enterprise-grade security, compliance, and dedicated support.',
     'whowpower.agency.desc': 'Manage influencer campaigns for multiple clients with white-label solutions, advanced reporting, and team collaboration tools.',
     'whowpower.cta.startup': 'Start for free',
@@ -137,7 +137,7 @@ const translations = {
     // Testimonials
     'testimonials.badge': 'Loved by influencers worldwide',
     'testimonials.title': 'What our influencers say',
-    'testimonials.subtitle': 'Join thousands of successful influencers who\'ve grown their reach with BloomFluence',
+    'testimonials.subtitle': 'Join thousands of successful influencers who\'ve grown their reach with BoomFluence',
     
     // Case Studies
     'casestudies.title': 'Proven wins with the leading AI-native teams',
@@ -147,7 +147,7 @@ const translations = {
     // Fellou
     'casestudies.fellou.category': 'AI Character Social & Virtual Human App',
     'casestudies.fellou.description': 'Fellou is a global Agentic Browser with powerful AI capabilities, currently serving millions of users. Through AI-driven character socialization and virtual human technology, it provides immersive interactive experiences, making AI characters an integral part of users\' daily social lives.',
-    'casestudies.fellou.contribution': 'BloomFluence helped Fellou achieve rapid user base growth and effective global market expansion through precise AI influencer matching and content strategy.',
+    'casestudies.fellou.contribution': 'BoomFluence helped Fellou achieve rapid user base growth and effective global market expansion through precise AI influencer matching and content strategy.',
     'casestudies.fellou.metric1': 'User Growth',
     'casestudies.fellou.value1': 'Millions',
     'casestudies.fellou.improvement1': '+200%',
@@ -160,7 +160,7 @@ const translations = {
     // Mootion
     'casestudies.mootion.category': 'AI 3D Character Animation Generator',
     'casestudies.mootion.description': 'Mootion is an easy-to-use AI video platform focusing on 3D animation generation. Used in over 50 countries with 2M+ registered users and 400K+ monthly active users, generating over 10M video content pieces, becoming a leading global AI animation creation tool.',
-    'casestudies.mootion.contribution': 'BloomFluence helped Mootion establish strong brand influence and user base in the competitive 3D animation market through professional AI tool promotion strategies.',
+    'casestudies.mootion.contribution': 'BoomFluence helped Mootion establish strong brand influence and user base in the competitive 3D animation market through professional AI tool promotion strategies.',
     'casestudies.mootion.metric1': 'Registered Users',
     'casestudies.mootion.value1': '2M+',
     'casestudies.mootion.improvement1': '+150%',
@@ -173,7 +173,7 @@ const translations = {
     // Readdy
     'casestudies.readdy.category': 'AI Website Builder - Generate Sites in Minutes',
     'casestudies.readdy.description': 'Readdy.ai is an AI-driven website building platform that enables users to quickly generate professional websites without design or programming experience. Achieved over $5M ARR in 4 months, demonstrating the huge market potential of AI website building tools and providing efficient digital solutions for SMBs.',
-    'casestudies.readdy.contribution': 'BloomFluence helped Readdy.ai establish strong market awareness and user trust in a short period through precise B2B influencer marketing strategies.',
+    'casestudies.readdy.contribution': 'BoomFluence helped Readdy.ai establish strong market awareness and user trust in a short period through precise B2B influencer marketing strategies.',
     'casestudies.readdy.metric1': 'ARR Growth',
     'casestudies.readdy.value1': '$5M',
     'casestudies.readdy.improvement1': '+500%',
@@ -211,7 +211,7 @@ const translations = {
     'guarantee.cta.title1': 'Ready to build something ',
     'guarantee.cta.title2': 'AMAZING',
     'guarantee.cta.title3': '?',
-    'guarantee.cta.desc': 'Join thousands of brands already growing with BloomFluence.',
+    'guarantee.cta.desc': 'Join thousands of brands already growing with BoomFluence.',
     'guarantee.cta.button': 'Start Building',
     
     // Footer
@@ -258,7 +258,7 @@ const translations = {
     
     // Process
     'process.title1': '一键启动专家级营销活动',
-    'process.desc1': '只需粘贴您的网站URL，BloomFluence即可交付一个随时可用的营销活动：精准定位和核心卖点、平台选择、地域覆盖和预算计划。全程不到一分钟，无需手动输入。',
+    'process.desc1': '只需粘贴您的网站URL，BoomFluence即可交付一个随时可用的营销活动：精准定位和核心卖点、平台选择、地域覆盖和预算计划。全程不到一分钟，无需手动输入。',
     'process.feature1.1': '市场定位与受众画像',
     'process.feature1.2': '核心价值与信息框架',
     'process.feature1.3': '渠道与区域策略',
@@ -267,39 +267,39 @@ const translations = {
     'process.statDesc1': '生成完整品牌策略仅需5分钟，而手动需要1-2天。',
     
     'process.title2': '从5000万+网红中，AI识别真正匹配您品牌的人',
-    'process.desc2': 'BloomFluence的网红匹配引擎分析237+行为信号，使用在数百万成功品牌-网红合作中训练的大语言模型，适应实时趋势和受众数据，提供精准的、以ROI为导向的推荐。',
+    'process.desc2': 'BoomFluence的网红匹配引擎分析237+行为信号，使用在数百万成功品牌-网红合作中训练的大语言模型，适应实时趋势和受众数据，提供精准的、以ROI为导向的推荐。',
     'process.feature2.1': '237+维度行为分析',
     'process.feature2.2': '品牌一致的受众匹配',
     'process.feature2.3': 'LLM驱动的匹配预测与ROI评分',
     'process.feature2.4': '跨主流平台的社交洞察',
     'process.stat2': '覆盖范围扩大10万倍',
-    'process.statDesc2': '人工团队每天约能审查和匹配500个网红；BloomFluence扫描了5000万+网红，并在几小时内为我们匹配了完全对齐的网红。',
+    'process.statDesc2': '人工团队每天约能审查和匹配500个网红；BoomFluence扫描了5000万+网红，并在几小时内为我们匹配了完全对齐的网红。',
     
     'process.title3': 'AI谈判最优价格和条款——然后交付可立即启动的网红',
-    'process.desc3': 'BloomFluence自动化整个工作流程——从初次接触到最优价格谈判、确保合作伙伴关系和签署合同——让您以零人工工作量更快推进。',
+    'process.desc3': 'BoomFluence自动化整个工作流程——从初次接触到最优价格谈判、确保合作伙伴关系和签署合同——让您以零人工工作量更快推进。',
     'process.feature3.1': '自动联系',
     'process.feature3.2': '价格谈判',
     'process.feature3.3': '建立合作',
     'process.feature3.4': '签署合同',
     'process.stat3': '效率提升5-10倍',
-    'process.statDesc3': '不再需要花费数周追逐和谈判网红，BloomFluence在几天内就交付了一个随时可用的、完全对齐的、已签约的网红名单。',
+    'process.statDesc3': '不再需要花费数周追逐和谈判网红，BoomFluence在几天内就交付了一个随时可用的、完全对齐的、已签约的网红名单。',
     
     'process.title4': '最高标准的创意监督，保证最终结果',
-    'process.desc4': 'BloomFluence确保网红遵循您的品牌愿景——从脚本到最终视频交付的每一步都受到监控和优化，确保质量、一致性和品牌安全。',
+    'process.desc4': 'BoomFluence确保网红遵循您的品牌愿景——从脚本到最终视频交付的每一步都受到监控和优化，确保质量、一致性和品牌安全。',
     'process.feature4.1': '品牌指南提交',
     'process.feature4.2': '脚本对齐',
     'process.feature4.3': '多轮修订',
     'process.feature4.4': '保证发布',
     'process.stat4': '100%保证',
-    'process.statDesc4': 'BloomFluence的流程监督使每个网红保持一致，实现快速生产一致、高质量的内容。',
+    'process.statDesc4': 'BoomFluence的流程监督使每个网红保持一致，实现快速生产一致、高质量的内容。',
     
     'process.title5': 'AI审查数据并优化每个营销活动以获得更好的结果',
-    'process.desc5': '精准追踪每个网红的表现。BloomFluence自动分析实时指标和营销活动结果——呈现ROI洞察、识别顶级表现者，并持续优化您的策略。',
+    'process.desc5': '精准追踪每个网红的表现。BoomFluence自动分析实时指标和营销活动结果——呈现ROI洞察、识别顶级表现者，并持续优化您的策略。',
     'process.feature5.1': '网红级别细分',
     'process.feature5.2': '关键指标追踪',
     'process.feature5.3': '实时优化',
     'process.stat5': '转化率提升22倍',
-    'process.statDesc5': '使用BloomFluence，我们的转化率达到22.19%——远高于我们行业通常的1-3%。',
+    'process.statDesc5': '使用BoomFluence，我们的转化率达到22.19%——远高于我们行业通常的1-3%。',
     
     // Who We Power
     'whowpower.title': '我们为谁赋能',
@@ -307,7 +307,7 @@ const translations = {
     'whowpower.startup': '初创企业',
     'whowpower.enterprise': '企业',
     'whowpower.agency': '代理机构',
-    'whowpower.startup.desc': '跳过招聘和漫长的准备期。BloomFluence让您的营销活动在几小时内上线，接入全球5000万+网红，智能定价和全自动执行。',
+    'whowpower.startup.desc': '跳过招聘和漫长的准备期。BoomFluence让您的营销活动在几小时内上线，接入全球5000万+网红，智能定价和全自动执行。',
     'whowpower.enterprise.desc': '通过企业级安全、合规性和专属支持，跨多个品牌和地区扩展您的网红营销。',
     'whowpower.agency.desc': '使用白标解决方案、高级报告和团队协作工具，为多个客户管理网红营销活动。',
     'whowpower.cta.startup': '免费开始',
@@ -358,7 +358,7 @@ const translations = {
     // Testimonials
     'testimonials.badge': '受全球网红喜爱',
     'testimonials.title': '网红们的评价',
-    'testimonials.subtitle': '加入成千上万通过BloomFluence扩大影响力的成功网红行列',
+    'testimonials.subtitle': '加入成千上万通过BoomFluence扩大影响力的成功网红行列',
     
     // Case Studies
     'casestudies.title': '与领先AI原生团队的成功案例',
@@ -368,7 +368,7 @@ const translations = {
     // Fellou
     'casestudies.fellou.category': 'AI角色社交与虚拟人应用',
     'casestudies.fellou.description': 'Fellou是一个全球性的Agentic Browser，具备强大的AI能力，目前拥有数百万用户。通过AI驱动的角色社交和虚拟人技术，为用户提供沉浸式的交互体验，让AI角色成为用户日常社交的重要组成部分。',
-    'casestudies.fellou.contribution': 'BloomFluence帮助Fellou通过精准的AI网红匹配和内容策略，实现了用户基数的快速增长和全球市场的有效拓展。',
+    'casestudies.fellou.contribution': 'BoomFluence帮助Fellou通过精准的AI网红匹配和内容策略，实现了用户基数的快速增长和全球市场的有效拓展。',
     'casestudies.fellou.metric1': '用户增长',
     'casestudies.fellou.value1': '数百万',
     'casestudies.fellou.improvement1': '+200%',
@@ -381,7 +381,7 @@ const translations = {
     // Mootion
     'casestudies.mootion.category': 'AI 3D人物动画生成工具',
     'casestudies.mootion.description': 'Mootion是一个易用的AI视频平台，专注于3D动画生成。平台已在50多个国家使用，拥有200万+注册用户和40万+月活用户，累计生成超过1000万条视频内容，成为全球领先的AI动画创作工具。',
-    'casestudies.mootion.contribution': 'BloomFluence通过专业的AI工具推广策略，帮助Mootion在竞争激烈的3D动画市场中建立了强大的品牌影响力和用户基础。',
+    'casestudies.mootion.contribution': 'BoomFluence通过专业的AI工具推广策略，帮助Mootion在竞争激烈的3D动画市场中建立了强大的品牌影响力和用户基础。',
     'casestudies.mootion.metric1': '注册用户',
     'casestudies.mootion.value1': '200万+',
     'casestudies.mootion.improvement1': '+150%',
@@ -394,7 +394,7 @@ const translations = {
     // Readdy
     'casestudies.readdy.category': 'AI建站平台几分钟生成网站',
     'casestudies.readdy.description': 'Readdy.ai是一个AI驱动的建站平台，让用户无需设计或编程经验即可快速生成专业网站。在4个月内实现了超过500万美元的ARR，展现了AI建站工具的巨大市场潜力，为中小企业提供了高效的数字化解决方案。',
-    'casestudies.readdy.contribution': 'BloomFluence通过精准的B2B网红营销策略，帮助Readdy.ai在短时间内建立了强大的市场认知度和用户信任度。',
+    'casestudies.readdy.contribution': 'BoomFluence通过精准的B2B网红营销策略，帮助Readdy.ai在短时间内建立了强大的市场认知度和用户信任度。',
     'casestudies.readdy.metric1': 'ARR增长',
     'casestudies.readdy.value1': '500万美元',
     'casestudies.readdy.improvement1': '+500%',
@@ -432,7 +432,7 @@ const translations = {
     'guarantee.cta.title1': '准备好创造',
     'guarantee.cta.title2': '令人惊叹',
     'guarantee.cta.title3': '的成果了吗？',
-    'guarantee.cta.desc': '加入已经在使用BloomFluence成长的数千品牌。',
+    'guarantee.cta.desc': '加入已经在使用BoomFluence成长的数千品牌。',
     'guarantee.cta.button': '开始创建',
     
     // Footer

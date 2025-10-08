@@ -146,7 +146,7 @@ const Guarantee = () => {
               {/* Logo */}
               <div className="flex items-center justify-center mb-4 px-4">
                 <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-poetsen text-white">
-                  BloomFluence
+                  BoomFluence
                 </span>
               </div>
             </ScrollReveal>

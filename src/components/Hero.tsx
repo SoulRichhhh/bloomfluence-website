@@ -3,7 +3,11 @@ import { ArrowRight, Sparkles, Star } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
-const Hero = () => {
+interface HeroProps {
+  onGetStartedClick?: () => void
+}
+
+const Hero = ({ onGetStartedClick }: HeroProps) => {
   const { t, language } = useLanguage()
   const scrollRef1 = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -538,7 +542,7 @@ const Hero = () => {
       name: "Sarah Chen",
       role: "Tech Influencer",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
-      content: "BloomFluence transformed our influencer marketing. We saw 300% increase in engagement and 150% boost in conversions within just 2 months.",
+      content: "BoomFluence transformed our influencer marketing. We saw 300% increase in engagement and 150% boost in conversions within just 2 months.",
       rating: 5
     },
     {
@@ -562,7 +566,7 @@ const Hero = () => {
       name: "David Kim",
       role: "Tech Reviewer",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
-      content: "BloomFluence's automation saved us 20+ hours per week. Our team can focus on strategy instead of manual outreach.",
+      content: "BoomFluence's automation saved us 20+ hours per week. Our team can focus on strategy instead of manual outreach.",
       rating: 5
     },
     {
@@ -594,7 +598,7 @@ const Hero = () => {
       name: "James Wilson",
       role: "Travel Blogger",
       avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
-      content: "BloomFluence helped us scale globally. We now work with brands across 15 countries seamlessly.",
+      content: "BoomFluence helped us scale globally. We now work with brands across 15 countries seamlessly.",
       rating: 5
     },
     {
@@ -1010,10 +1014,10 @@ const Hero = () => {
                     paddingRight: '0.5em'
                   }}
                 >
-                  BloomFluence
+                  BoomFluence
                 </span>
               ) : (
-                <span className="opacity-0">BloomFluence</span>
+                <span className="opacity-0">BoomFluence</span>
               )}
             </h1>
           </ScrollReveal>
@@ -1035,8 +1039,8 @@ const Hero = () => {
           <ScrollReveal delay={600}>
             {/* CTA Buttons */}
             <div className="flex flex-row gap-3 md:gap-4 justify-center items-center mb-12">
-            <a
-              href="#demo"
+            <button
+              onClick={onGetStartedClick}
               className="relative bg-white text-gray-900 font-medium py-2 px-4 md:px-6 rounded-lg transition-all duration-300 hover:bg-gray-50 inline-flex items-center group overflow-hidden"
               style={{
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
@@ -1047,7 +1051,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
               <span className="relative z-10">{t('hero.getStarted')}</span>
               <ArrowRight className="ml-2 h-4 w-4 relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />
-            </a>
+            </button>
             <a
               href="#services"
               className="relative bg-white/5 text-white font-medium py-2.5 px-5 md:px-7 rounded-lg transition-all duration-300 inline-flex items-center group overflow-hidden backdrop-blur-sm hover:bg-white/10"

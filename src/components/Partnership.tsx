@@ -24,7 +24,7 @@ const Partnership = () => {
             We're Looking for Partners!
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Join BloomFluence to help the best AI products be seen by the world
+            Join BoomFluence to help the best AI products be seen by the world
           </p>
         </div>
 
