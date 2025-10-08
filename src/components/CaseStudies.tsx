@@ -1,18 +1,71 @@
 import { ArrowRight } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
+
+// 数字滚动动画组件
+const AnimatedNumber = ({ value, isActive }: { value: string, isActive: boolean }) => {
+  const [displayValue, setDisplayValue] = useState('0')
+  const hasAnimated = useRef(false)
+
+  useEffect(() => {
+    if (!isActive || hasAnimated.current) return
+
+    // 提取数字
+    const numbers = value.match(/\d+/g)
+    if (!numbers) {
+      setDisplayValue(value)
+      return
+    }
+
+    const targetNumber = parseInt(numbers[0])
+    const prefix = value.split(numbers[0])[0]
+    const suffix = value.split(numbers[0])[1] || ''
+    
+    let start = 0
+    const duration = 1500 // 动画持续时间
+    const increment = targetNumber / (duration / 16) // 每帧增加的值
+    
+    const animate = () => {
+      start += increment
+      if (start < targetNumber) {
+        setDisplayValue(`${prefix}${Math.floor(start)}${suffix}`)
+        requestAnimationFrame(animate)
+      } else {
+        setDisplayValue(value)
+        hasAnimated.current = true
+      }
+    }
+    
+    // 延迟启动动画
+    setTimeout(() => {
+      animate()
+    }, 200)
+  }, [isActive, value])
+
+  return <span>{displayValue}</span>
+}
 
 const CaseStudies = () => {
   const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
+  const [animatedCards, setAnimatedCards] = useState<Set<number>>(new Set())
+
+  useEffect(() => {
+    // 初始加载时激活第一张卡片
+    setAnimatedCards(new Set([0]))
+  }, [])
 
   useEffect(() => {
     if (isHovering) return // 如果正在hover，暂停自动轮播
 
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % 3) // 循环3个案例
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % 3
+        setAnimatedCards(prevSet => new Set(prevSet).add(next))
+        return next
+      })
     }, 3000) // 每3秒切换
 
     return () => clearInterval(interval)
@@ -85,6 +138,7 @@ const CaseStudies = () => {
               onMouseEnter={(e) => {
                 setIsHovering(true)
                 setActiveIndex(index)
+                setAnimatedCards(prev => new Set(prev).add(index))
                 e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)'
               }}
               onMouseLeave={(e) => {
@@ -148,8 +202,15 @@ const CaseStudies = () => {
                     <div key={resultIndex} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded group-hover:bg-gray-100 transition-colors duration-300">
                       <span className="text-gray-600 text-sm font-medium">{result.metric}</span>
                       <div className="text-right">
-                        <span className="font-semibold text-gray-900 text-sm">{result.value}</span>
-                        <span className="text-green-600 text-xs ml-2">{result.improvement}</span>
+                        <span className="font-semibold text-gray-900 text-sm">
+                          {result.value}
+                        </span>
+                        <span className="text-green-600 text-xs ml-2">
+                          <AnimatedNumber 
+                            value={result.improvement} 
+                            isActive={animatedCards.has(index) || index === activeIndex} 
+                          />
+                        </span>
                       </div>
                     </div>
                   ))}

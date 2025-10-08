@@ -79,7 +79,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
               BoomFluence
             </h1>
             {/* 二级标题 - 中等尺寸，加粗 */}
-            <p className="text-[9px] font-semibold text-black/85 leading-tight mt-0.5" style={{ width: '152px', letterSpacing: '0.2px' }}>
+            <p className="text-[8px] font-semibold text-black/85 leading-tight mt-0.5" style={{ width: '152px', letterSpacing: '0.2px' }}>
               Influencer Marketing for AI Growth
             </p>
             {/* 三级标题 - 最小，细字重 */}
