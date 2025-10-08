@@ -426,4 +426,34 @@
       transform: translateY(-6px) rotate(1deg);
     }
   }
+
+  /* Linear风格badge光泽 - 极简版 */
+  @keyframes badge-shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  /* hover时的光泽动画 */
+  @keyframes badge-shimmer-hover {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  /* Logo渐变流动动画 */
+  @keyframes logo-gradient-flow {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
 }

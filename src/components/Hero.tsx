@@ -55,16 +55,27 @@ const Hero = () => {
 
   // 初始化物理状态（首次加载和重置时触发）
   useEffect(() => {
-    const rect = document.querySelector('section')?.getBoundingClientRect()
-    if (!rect) return
-
     const isMobile = window.innerWidth < 768
-    const currentScrollY = window.scrollY
+    console.log('🔄 Initializing emoji...', { isMobile, shouldResetEmojis, scrollY: window.scrollY })
     
-    // 如果是首次加载（shouldResetEmojis === 0）且不在页面顶部，则不初始化emoji
-    if (shouldResetEmojis === 0 && currentScrollY > 10) {
-      console.log('⏸️ Page not at top, emoji initialization skipped')
-      return
+    // 桌面端：检查是否在顶部
+    if (!isMobile) {
+      const currentScrollY = window.scrollY
+      if (shouldResetEmojis === 0 && currentScrollY > 10) {
+        console.log('⏸️ Desktop: Page not at top, emoji initialization skipped')
+        return
+      }
+    }
+    
+    // 手机端或桌面端在顶部：立即初始化
+    const rect = document.querySelector('section')?.getBoundingClientRect()
+    if (!rect) {
+      console.log('⚠️ Section not found, will retry...')
+      // 如果section还没准备好，延迟重试
+      const retryTimer = setTimeout(() => {
+        setShouldResetEmojis(prev => prev + 1)
+      }, 100)
+      return () => clearTimeout(retryTimer)
     }
     
     const initialPhysics = emojis.map((emoji) => {
@@ -74,11 +85,10 @@ const Hero = () => {
         // 手机端：从屏幕顶端上方掉落
         const screenWidth = window.innerWidth
         const screenHeight = window.innerHeight
-        // 非常集中的水平分布，从中心区域掉落形成山形
-        const centerX = screenWidth / 2
-        x = centerX - 80 + Math.random() * 160 // 收窄到160px宽度
-        // 从顶端-40px开始掉落（y = screenHeight + 40 对应屏幕顶部上方40px）
-        y = screenHeight + 40 + Math.random() * 30 // 从-40px到-70px错开掉落
+        // 分散的水平分布，从屏幕左右两侧掉落
+        x = 60 + Math.random() * (screenWidth - 120) // 在屏幕宽度范围内随机分布（留60px边距）
+        // 从顶端-80px开始掉落，错开掉落时间
+        y = screenHeight + 80 + Math.random() * 40 // 从-80px到-120px错开掉落
       } else {
         // 桌面端：原有位置
         x = emoji.left !== undefined 
@@ -92,43 +102,54 @@ const Hero = () => {
       return {
         x,
         y,
-        vx: isMobile ? (Math.random() - 0.5) * 2 : 0, // 极小的初始水平速度，便于堆成山形
-        vy: isMobile ? -Math.random() * 1.5 - 0.5 : 0, // 负数表示向下（y减小），较慢的初速度
+        vx: isMobile ? (Math.random() - 0.5) * 1.5 : 0, // 极小的初始水平速度，便于堆成山形
+        vy: isMobile ? -Math.random() * 1.0 - 0.3 : 0, // 更慢的初速度（-0.3到-1.3）
         originalX: x,
         originalY: y
       }
     })
 
+    console.log('📍 Setting emojiPhysics...', { count: initialPhysics.length, isMobile, shouldResetEmojis })
     setEmojiPhysics(initialPhysics)
-    console.log('🎆 Emoji initialized and dropping from top!')
+    console.log('✅ Emoji initialized!', isMobile ? 'Mobile mode' : 'Desktop mode', 'Reset count:', shouldResetEmojis)
   }, [shouldResetEmojis]) // 监听重置触发器
 
   // 监听滚动，只有真正触顶时才重置emoji
   useEffect(() => {
     let wasScrolledDown = false
-    let hasTriggeredReset = false // 防止重复触发
+    let isResetting = false // 标记是否正在重置中
     
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const isMobile = window.innerWidth < 768
       
       // 记录是否曾经向下滚动过
-      if (currentScrollY > 200) {
+      if (currentScrollY > 100) {
         wasScrolledDown = true
-        hasTriggeredReset = false // 重置触发标记
+        isResetting = false // 离开顶部时重置标记
       }
       
-      // 只有当真正触顶（scrollY = 0）时才重置emoji（仅手机端）
-      if (isMobile && wasScrolledDown && currentScrollY === 0 && !hasTriggeredReset) {
-        console.log('🔝 Reached top! Resetting emoji...')
-        setShouldResetEmojis(prev => prev + 1)
-        wasScrolledDown = false
-        hasTriggeredReset = true // 防止重复触发
+      // 当接近顶部（scrollY < 50）时重置emoji（仅手机端）
+      if (isMobile && wasScrolledDown && currentScrollY < 50 && !isResetting) {
+        isResetting = true // 立即设置标记，防止重复触发
+        console.log('🔝 Reached top! Clearing old emojis...')
+        
+        // 立即清空旧的emoji（让它们消失）
+        setEmojiPhysics([])
+        
+        // 延迟后重新生成新的emoji从顶部掉落
+        setTimeout(() => {
+          console.log('🎆 Dropping new emojis!')
+          setShouldResetEmojis(prev => prev + 1)
+          wasScrolledDown = false
+        }, 200) // 200ms延迟，给用户时间看到emoji消失
       }
     }
     
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   // 手机摇晃检测（仅移动端）
@@ -243,8 +264,6 @@ const Hero = () => {
 
   // 物理引擎主循环
   useEffect(() => {
-    if (emojiPhysics.length === 0) return
-
     let animationFrameId: number
 
     const physicsLoop = () => {
@@ -252,6 +271,9 @@ const Hero = () => {
       if (!rect) return
 
       setEmojiPhysics(prevPhysics => {
+        // 如果没有emoji，返回空数组
+        if (prevPhysics.length === 0) return prevPhysics
+        
         const newPhysics = prevPhysics.map((physics, i) => {
           let { x, y, vx, vy, originalX, originalY } = physics
           const emoji = emojis[i]
@@ -443,7 +465,7 @@ const Hero = () => {
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [mousePos, isHovering, emojiPhysics.length, deviceGravity])
+  }, [mousePos, isHovering, deviceGravity])
 
   // 计算emoji的动态位置 - 物理引擎驱动
   const getEmojiStyle = (emoji: any, index: number) => {
@@ -791,7 +813,7 @@ const Hero = () => {
       </div>
 
       {/* Mobile: Emoji pile at bottom - 手机端底部emoji堆（重力堆叠） */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-screen z-50 pointer-events-none overflow-hidden">
+      <div className="md:hidden fixed top-0 left-0 right-0 h-screen z-40 pointer-events-none overflow-hidden">
         {emojis.map((emojiData, index) => {
           if (emojiPhysics.length === 0) return null
           
@@ -958,9 +980,21 @@ const Hero = () => {
         <div className="text-center">
           <ScrollReveal delay={0}>
             {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-gray-800/50 text-gray-300 text-sm font-medium mb-10 rounded-full border border-gray-700/50">
-              <Star className="h-4 w-4 mr-2 text-gray-400" />
-              <span>{t('hero.badge')}</span>
+            <div className="inline-flex items-center px-4 py-2 text-sm font-medium mb-10 -mt-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm relative overflow-hidden cursor-default">
+              {/* 光泽扫过效果 */}
+              <div 
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%)',
+                  animation: 'badge-shimmer 3s ease-in-out infinite'
+                }}
+              ></div>
+              
+              {/* 内容层 */}
+              <Star className="h-4 w-4 mr-2 text-gray-400 relative z-10" />
+              <span className="text-gray-300 relative z-10">
+                {t('hero.badge')}
+              </span>
             </div>
           </ScrollReveal>
           
@@ -986,7 +1020,7 @@ const Hero = () => {
           
           <ScrollReveal delay={300}>
             {/* Mission Statement */}
-            <h2 className={`text-2xl md:text-4xl font-bold text-white mb-4 -mt-6 whitespace-pre-line ${language === 'zh' ? 'font-sans' : 'font-sf-pro'}`}>
+            <h2 className={`text-3xl md:text-4xl font-bold text-white mb-4 -mt-6 whitespace-pre-line ${language === 'zh' ? 'font-sans' : 'font-sf-pro'}`}>
               {t('hero.mission')}
             </h2>
           </ScrollReveal>
@@ -1016,14 +1050,21 @@ const Hero = () => {
             </a>
             <a
               href="#services"
-              className="relative bg-gray-900 text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 hover:bg-gray-800 inline-flex items-center group overflow-hidden"
+              className="relative bg-white/5 text-white font-medium py-2.5 px-5 md:px-7 rounded-lg transition-all duration-300 inline-flex items-center group overflow-hidden backdrop-blur-sm hover:bg-white/10"
               style={{
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
+                boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.3)'
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+              {/* hover时光泽扫过效果 */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)',
+                  transform: 'translateX(-100%)',
+                  animation: 'badge-shimmer-hover 1.5s ease-in-out'
+                }}
+              ></div>
+              
               <Sparkles className="mr-2 h-4 w-4 relative z-10" />
               <span className="relative z-10">{t('hero.learnMore')}</span>
             </a>

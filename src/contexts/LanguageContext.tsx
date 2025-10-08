@@ -246,7 +246,7 @@ const translations = {
     
     // Hero
     'hero.badge': 'AI网红营销平台',
-    'hero.mission': '帮助最棒的AI产品被世界看见',
+    'hero.mission': '帮助最棒的AI产品\n被世界看见',
     'hero.subtitle': '我们专注于AI工具网红营销，与高潜力AI产品合作，打造爆款并实现全球增长。',
     'hero.getStarted': '立即开始',
     'hero.learnMore': '了解更多',

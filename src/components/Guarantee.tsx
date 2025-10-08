@@ -140,7 +140,7 @@ const Guarantee = () => {
         </div>
 
         {/* CTA Section */}
-        <div id="contact" className="text-center mt-40 scroll-mt-[100px] md:scroll-mt-20">
+        <div id="contact" className="text-center mt-40 scroll-mt-[200px] md:scroll-mt-20">
           <div className="max-w-2xl mx-auto">
             <ScrollReveal delay={0}>
               {/* Logo */}
