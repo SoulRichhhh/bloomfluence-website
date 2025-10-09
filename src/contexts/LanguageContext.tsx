@@ -37,7 +37,7 @@ const translations = {
     
     // Process
     'process.title1': 'One click to launch an expert-level campaign',
-    'process.desc1': 'Simply paste your website URL - BoomFluence delivers a campaign that\'s launch-ready: precise targeting and core selling points, platform selection, geographic reach, and budget plan. All in under a minute, with no manual input.',
+    'process.desc1': 'BoomFluence delivers a campaign that\'s launch-ready: precise targeting and core selling points, platform selection, geographic reach, and budget plan.',
     'process.feature1.1': 'Market positioning & audience profiling',
     'process.feature1.2': 'Core value & messaging framework',
     'process.feature1.3': 'Channel & region strategy',
@@ -268,7 +268,7 @@ const translations = {
     
     // Process
     'process.title1': '一键启动专家级营销活动',
-    'process.desc1': '只需粘贴您的网站URL，BoomFluence即可交付一个随时可用的营销活动：精准定位和核心卖点、平台选择、地域覆盖和预算计划。全程不到一分钟，无需手动输入。',
+    'process.desc1': 'BoomFluence交付一个随时可用的营销活动：精准定位和核心卖点、平台选择、地域覆盖和预算计划。',
     'process.feature1.1': '市场定位与受众画像',
     'process.feature1.2': '核心价值与信息框架',
     'process.feature1.3': '渠道与区域策略',
