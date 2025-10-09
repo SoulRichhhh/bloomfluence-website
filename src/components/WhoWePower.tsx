@@ -1,17 +1,12 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
 const WhoWePower = () => {
   const { t } = useLanguage()
-  const [activeTab, setActiveTab] = useState('startup')
-
-  const tabs = [
-    { id: 'startup', label: t('whowpower.startup') },
-    { id: 'enterprise', label: t('whowpower.enterprise') },
-    { id: 'agency', label: t('whowpower.agency') }
-  ]
+  const [activeIndex, setActiveIndex] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const content = {
     startup: {
@@ -55,12 +50,47 @@ const WhoWePower = () => {
     }
   }
 
+  const contentArray = [
+    { ...content.startup, id: 'startup' },
+    { ...content.enterprise, id: 'enterprise' },
+    { ...content.agency, id: 'agency' }
+  ]
+
+  // 监听滚动位置更新指示器
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft
+      const cardWidth = container.offsetWidth
+      const newIndex = Math.round(scrollLeft / cardWidth)
+      setActiveIndex(newIndex)
+    }
+
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // 点击指示器滚动到对应卡片
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current
+    if (!container) return
+    
+    const cardWidth = container.offsetWidth
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: 'smooth'
+    })
+    setActiveIndex(index)
+  }
+
   return (
     <section id="whowpower" className="py-20 bg-white" style={{ scrollMarginTop: '240px' }}>
       <div className="container max-w-7xl">
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 {t('whowpower.title')}
               </h2>
@@ -71,46 +101,67 @@ const WhoWePower = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            {/* Tab Navigation */}
-            <div className="flex justify-center mb-16">
-              <div className="bg-gray-100 rounded-2xl p-2 inline-flex">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                      activeTab === tab.id
-                        ? 'bg-white text-primary-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
+            {/* 横向滑动卡片容器 */}
+            <div 
+              ref={scrollContainerRef}
+              className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch'
+              }}
+            >
+              {contentArray.map((item) => (
+                <div 
+                  key={item.id}
+                  className="flex-shrink-0 w-full snap-center px-2"
+                >
+                  <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
+                    {/* 标题标签 */}
+                    <div className="flex justify-center mb-6">
+                      <div className="bg-white rounded-xl px-6 py-2 shadow-sm">
+                        <h3 className="text-lg font-semibold text-primary-600">
+                          {item.title}
+                        </h3>
+                      </div>
+                    </div>
 
-          <ScrollReveal delay={400}>
-            {/* Tab Content */}
-            <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-            <div className="max-w-3xl mx-auto text-center">
-              <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
-                {content[activeTab as keyof typeof content].description}
-              </p>
+                    {/* 描述 */}
+                    <div className="max-w-3xl mx-auto text-center">
+                      <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
+                        {item.description}
+                      </p>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-12">
-                {content[activeTab as keyof typeof content].features.map((feature, index) => (
-                  <div key={index} className="flex items-start space-x-3 text-left">
-                    <CheckCircle className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{feature}</span>
+                      {/* 特性列表 */}
+                      <div className="grid md:grid-cols-2 gap-6">
+                        {item.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-start space-x-3 text-left">
+                            <CheckCircle className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" />
+                            <span className="text-gray-700">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                ))}
-              </div>
-
-              {/* Button hidden */}
+                </div>
+              ))}
             </div>
-          </div>
+
+            {/* 指示器圆点 */}
+            <div className="flex justify-center gap-2 mt-6">
+              {contentArray.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollToIndex(index)}
+                  className={`transition-all duration-300 rounded-full ${
+                    index === activeIndex 
+                      ? 'w-8 h-2 bg-gray-900' 
+                      : 'w-2 h-2 bg-gray-300'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </ScrollReveal>
         </div>
       </div>

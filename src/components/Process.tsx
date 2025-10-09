@@ -220,7 +220,7 @@ const Process = () => {
 
                 {/* 内容 */}
                 <div className="p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">
+                  <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
                     {process.title}
                   </h2>
                   <p className="text-sm text-gray-600 mb-4 leading-relaxed">
