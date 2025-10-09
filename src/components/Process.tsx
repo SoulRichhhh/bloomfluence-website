@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
 const Process = () => {
   const { t } = useLanguage()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const processes = [
     {
       title: t('process.title1'),
@@ -82,9 +84,39 @@ const Process = () => {
     }
   ]
 
+  // 监听滚动位置更新指示器
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft
+      const cardWidth = container.offsetWidth
+      const newIndex = Math.round(scrollLeft / cardWidth)
+      setActiveIndex(newIndex)
+    }
+
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // 点击指示器滚动到对应卡片
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current
+    if (!container) return
+    
+    const cardWidth = container.offsetWidth
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: 'smooth'
+    })
+    setActiveIndex(index)
+  }
+
   return (
     <section id="solutions" className="py-24 bg-white">
-      <div className="w-full">
+      {/* 桌面端：保持原有布局 */}
+      <div className="hidden lg:block w-full">
         {processes.map((process, index) => (
           <React.Fragment key={index}>
             <ScrollReveal delay={0}>
@@ -151,6 +183,104 @@ const Process = () => {
           </ScrollReveal>
           </React.Fragment>
         ))}
+      </div>
+
+      {/* 手机端：横向滑动卡片 */}
+      <div className="lg:hidden">
+        {/* 横向滚动容器 */}
+        <div 
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          {processes.map((process, index) => (
+            <div 
+              key={index}
+              className="flex-shrink-0 w-full snap-center px-4 py-8"
+            >
+              <div className="bg-white rounded-2xl overflow-hidden">
+                {/* 图片 */}
+                <div className="relative bg-gray-100 aspect-[4/3]">
+                  <img 
+                    src={process.image} 
+                    alt={process.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Emoji覆盖层 */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                      <span className="text-2xl">{process.emoji}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 内容 */}
+                <div className="p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                    {process.title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                    {process.description}
+                  </p>
+                  
+                  {/* 特性列表 */}
+                  <div className="space-y-2 mb-6">
+                    {process.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-start space-x-2">
+                        <div 
+                          className="flex-shrink-0 mt-0.5 w-4 h-4 rounded-full flex items-center justify-center"
+                          style={{
+                            background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #10b981 100%)',
+                            backgroundSize: '200% 200%',
+                            animation: 'gradient-x 3s ease infinite'
+                          }}
+                        >
+                          <CheckCircle className="h-2.5 w-2.5 text-white" />
+                        </div>
+                        <span className="text-gray-700 text-xs leading-relaxed">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* 统计数据 */}
+                  <div className="pt-4 border-t border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">
+                      {process.stat}
+                    </h3>
+                    <p className="text-gray-600 text-xs leading-relaxed">
+                      {process.statDescription}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 指示器圆点 */}
+        <div className="flex justify-center gap-2 mt-6">
+          {processes.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              className={`transition-all duration-300 rounded-full ${
+                index === activeIndex 
+                  ? 'w-8 h-2' 
+                  : 'w-2 h-2'
+              }`}
+              style={{
+                background: index === activeIndex
+                  ? 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #10b981 100%)'
+                  : '#d1d5db'
+              }}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -1,5 +1,6 @@
 import { X, Mail, MessageCircle, Copy, Check, Phone, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
 
 interface WelcomeModalProps {
   isOpen: boolean
@@ -7,6 +8,7 @@ interface WelcomeModalProps {
 }
 
 const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
+  const { t, language } = useLanguage()
   const [isVisible, setIsVisible] = useState(false)
   const [copiedEmail, setCopiedEmail] = useState(false)
   const [copiedWhatsapp, setCopiedWhatsapp] = useState(false)
@@ -80,12 +82,14 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
             </h1>
             {/* 二级标题 - 中等尺寸，加粗 */}
             <p className="text-[8px] font-semibold text-black/85 leading-tight mt-0.5" style={{ width: '152px', letterSpacing: '0.2px' }}>
-              Influencer Marketing for AI Growth
+              {t('modal.subtitle')}
             </p>
-            {/* 三级标题 - 最小，细字重 */}
-            <p className="text-[10px] text-black/60 font-normal font-sans leading-tight mt-0.5">
-              帮助最棒的 AI 产品被世界看见
-            </p>
+            {/* 三级标题 - 最小，细字重 - 仅中文显示 */}
+            {language === 'zh' && (
+              <p className="text-[10px] text-black/60 font-normal font-sans leading-tight mt-0.5">
+                {t('modal.tagline')}
+              </p>
+            )}
           </div>
         </div>
 
@@ -107,7 +111,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 >
                   <p className="text-xs text-gray-500 mb-0.5 flex items-center gap-1">
                     WhatsApp
-                    <span className="text-[10px] text-gray-400">（点击展开二维码）</span>
+                    <span className="text-[10px] text-gray-400">{t('modal.whatsapp.hint')}</span>
                   </p>
                   <p className="text-sm font-medium text-gray-900">+86 18511146775</p>
                 </div>
@@ -117,7 +121,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 <button
                   onClick={() => copyToClipboard('+86 18511146775', 'whatsapp')}
                   className="flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
-                  title="复制 WhatsApp"
+                  title={t('modal.whatsapp.copy')}
                 >
                   {copiedWhatsapp ? (
                     <Check className="w-4 h-4 text-green-600" />
@@ -153,7 +157,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 >
                   <p className="text-xs text-gray-500 mb-0.5 flex items-center gap-1">
                     WeChat
-                    <span className="text-[10px] text-gray-400">（点击展开二维码）</span>
+                    <span className="text-[10px] text-gray-400">{t('modal.wechat.hint')}</span>
                   </p>
                   <p className="text-sm font-medium text-gray-900">czhi-cz</p>
                 </div>
@@ -163,7 +167,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
                 <button
                   onClick={() => copyToClipboard('czhi-cz', 'wechat')}
                   className="flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
-                  title="复制微信号"
+                  title={t('modal.wechat.copy')}
                 >
                   {copiedWechat ? (
                     <Check className="w-4 h-4 text-green-600" />
@@ -196,7 +200,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
               <button
                 onClick={() => copyToClipboard('workwithjimmyglobal@gmail.com', 'email')}
                 className="flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
-                title="复制邮箱"
+                title={t('modal.email.copy')}
               >
                 {copiedEmail ? (
                   <Check className="w-4 h-4 text-green-600" />
@@ -212,7 +216,7 @@ const WelcomeModal = ({ isOpen, onClose }: WelcomeModalProps) => {
             href="mailto:workwithjimmyglobal@gmail.com"
             className="block w-full mt-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-black transition-all duration-200 text-center"
           >
-            开始合作
+            {t('modal.cta')}
           </a>
         </div>
       </div>

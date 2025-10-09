@@ -447,6 +447,15 @@
     }
   }
 
+  /* 隐藏滚动条 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Logo渐变流动动画 */
   @keyframes logo-gradient-flow {
     0%, 100% {

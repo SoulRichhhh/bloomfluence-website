@@ -214,6 +214,16 @@ const translations = {
     'guarantee.cta.desc': 'Join thousands of brands already growing with BoomFluence.',
     'guarantee.cta.button': 'Go to Global Market',
     
+    // Welcome Modal
+    'modal.subtitle': 'Influencer Marketing for AI Growth',
+    'modal.tagline': 'Help the best AI products be seen by the world',
+    'modal.whatsapp.hint': '(Click to expand QR code)',
+    'modal.whatsapp.copy': 'Copy WhatsApp',
+    'modal.wechat.hint': '(Click to expand QR code)',
+    'modal.wechat.copy': 'Copy WeChat ID',
+    'modal.email.copy': 'Copy Email',
+    'modal.cta': 'Start Collaboration',
+    
     // Footer
     'footer.desc': 'The modern platform for influencer marketing. Build, launch, and scale your campaigns with confidence.',
     'footer.navigation': 'Navigation',
@@ -340,7 +350,7 @@ const translations = {
     'features.subtitle': '助力规模化增长',
     'features.desc': '专为现代网红营销规模化设计的综合平台，让您的品牌影响力快速提升。',
     'features.ai.title': 'AI智能匹配',
-    'features.ai.desc': '先进算法分析237+行为信号，为您匹配最完美的网红合作伙伴。',
+    'features.ai.desc': '分析237+信号，精准匹配最佳网红。',
     'features.automation.title': '自动化营销',
     'features.automation.desc': '几分钟内启动营销活动，AI处理联系、谈判和效果跟踪。',
     'features.targeting.title': '精准定向',
@@ -434,6 +444,16 @@ const translations = {
     'guarantee.cta.title3': '的成果了吗？',
     'guarantee.cta.desc': '加入已经在使用BoomFluence成长的数千品牌。',
     'guarantee.cta.button': '走向全球市场',
+    
+    // Welcome Modal
+    'modal.subtitle': 'AI增长的网红营销',
+    'modal.tagline': '帮助最棒的 AI 产品被世界看见',
+    'modal.whatsapp.hint': '（点击展开二维码）',
+    'modal.whatsapp.copy': '复制 WhatsApp',
+    'modal.wechat.hint': '（点击展开二维码）',
+    'modal.wechat.copy': '复制微信号',
+    'modal.email.copy': '复制邮箱',
+    'modal.cta': '开始合作',
     
     // Footer
     'footer.desc': '现代化的网红营销平台。自信地创建、启动和扩展您的营销活动。',
