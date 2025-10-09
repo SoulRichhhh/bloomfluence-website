@@ -114,7 +114,7 @@ const Process = () => {
   }
 
   return (
-    <section id="solutions" className="py-12 lg:py-24 bg-gray-50 lg:bg-white">
+    <section id="solutions" className="pt-6 pb-12 lg:py-24 bg-gray-50 lg:bg-white">
       {/* 桌面端：保持原有布局 */}
       <div className="hidden lg:block w-full">
         {processes.map((process, index) => (

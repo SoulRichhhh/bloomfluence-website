@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
 const WhoWePower = () => {
   const { t } = useLanguage()
-  const [activeIndex, setActiveIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const content = {
@@ -56,23 +55,7 @@ const WhoWePower = () => {
     { ...content.agency, id: 'agency' }
   ]
 
-  // 监听滚动位置更新指示器
-  useEffect(() => {
-    const container = scrollContainerRef.current
-    if (!container) return
-
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft
-      const cardWidth = container.offsetWidth
-      const newIndex = Math.round(scrollLeft / cardWidth)
-      setActiveIndex(newIndex)
-    }
-
-    container.addEventListener('scroll', handleScroll, { passive: true })
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // 点击指示器滚动到对应卡片
+  // 点击tab滚动到对应卡片
   const scrollToIndex = (index: number) => {
     const container = scrollContainerRef.current
     if (!container) return
@@ -82,7 +65,6 @@ const WhoWePower = () => {
       left: cardWidth * index,
       behavior: 'smooth'
     })
-    setActiveIndex(index)
   }
 
   return (
@@ -111,18 +93,28 @@ const WhoWePower = () => {
                 WebkitOverflowScrolling: 'touch'
               }}
             >
-              {contentArray.map((item) => (
+              {contentArray.map((item, itemIndex) => (
                 <div 
                   key={item.id}
                   className="flex-shrink-0 w-full snap-center px-2"
                 >
                   <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
-                    {/* 标题标签 */}
-                    <div className="flex justify-center mb-6">
-                      <div className="bg-white rounded-xl px-6 py-2 shadow-sm">
-                        <h3 className="text-lg font-semibold text-primary-600">
-                          {item.title}
-                        </h3>
+                    {/* Tab导航 - 保持原有样式 */}
+                    <div className="flex justify-center mb-8">
+                      <div className="bg-white rounded-2xl p-2 inline-flex shadow-sm">
+                        {contentArray.map((tab, tabIndex) => (
+                          <button
+                            key={tab.id}
+                            onClick={() => scrollToIndex(tabIndex)}
+                            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                              itemIndex === tabIndex
+                                ? 'bg-gray-900 text-white shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
+                            }`}
+                          >
+                            {tab.title}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
@@ -144,22 +136,6 @@ const WhoWePower = () => {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* 指示器圆点 */}
-            <div className="flex justify-center gap-2 mt-6">
-              {contentArray.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => scrollToIndex(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    index === activeIndex 
-                      ? 'w-8 h-2 bg-gray-900' 
-                      : 'w-2 h-2 bg-gray-300'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
               ))}
             </div>
           </ScrollReveal>
