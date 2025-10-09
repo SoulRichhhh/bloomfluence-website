@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CheckCircle, ArrowRight } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
@@ -108,13 +108,7 @@ const WhoWePower = () => {
                 ))}
               </div>
 
-              <a
-                href="#cta"
-                className="bg-aura-900 hover:bg-aura-800 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg inline-flex items-center group"
-              >
-                {content[activeTab as keyof typeof content].cta}
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              {/* Button hidden */}
             </div>
           </div>
           </ScrollReveal>

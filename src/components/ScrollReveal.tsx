@@ -4,9 +4,10 @@ interface ScrollRevealProps {
   children: ReactNode
   delay?: number
   className?: string
+  onVisible?: () => void
 }
 
-const ScrollReveal = ({ children, delay = 0, className = '' }: ScrollRevealProps) => {
+const ScrollReveal = ({ children, delay = 0, className = '', onVisible }: ScrollRevealProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
 
@@ -16,6 +17,10 @@ const ScrollReveal = ({ children, delay = 0, className = '' }: ScrollRevealProps
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true)
+            // 触发回调
+            if (onVisible) {
+              onVisible()
+            }
             // 一旦显示就不再隐藏
             observer.unobserve(entry.target)
           }
@@ -36,15 +41,15 @@ const ScrollReveal = ({ children, delay = 0, className = '' }: ScrollRevealProps
         observer.unobserve(elementRef.current)
       }
     }
-  }, [])
+  }, [onVisible])
 
   return (
     <div
       ref={elementRef}
       className={`transition-all duration-700 ease-out ${className} ${
         isVisible
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-8'
+          ? 'opacity-100 translate-y-0 scale-100'
+          : 'opacity-0 translate-y-8 scale-95'
       }`}
       style={{
         transitionDelay: `${delay}ms`

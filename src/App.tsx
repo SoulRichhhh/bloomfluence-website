@@ -40,12 +40,12 @@ function App() {
         <main>
           <Hero onGetStartedClick={() => setShowWelcomeModal(true)} />
           <Features />
-          <CaseStudies />
+          <CaseStudies onGetStartedClick={() => setShowWelcomeModal(true)} />
           <Process />
           <Testimonials />
           <WhoWePower />
           <Partners />
-          <Guarantee />
+          <Guarantee onGetStartedClick={() => setShowWelcomeModal(true)} />
         </main>
         <Footer />
         

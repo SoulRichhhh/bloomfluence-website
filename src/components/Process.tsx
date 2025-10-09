@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowRight, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
@@ -9,6 +9,9 @@ const Process = () => {
     {
       title: t('process.title1'),
       description: t('process.desc1'),
+      image: '/images/One-click.jpg',
+      emoji: '✨',
+      imageText: 'Launch',
       features: [
         t('process.feature1.1'),
         t('process.feature1.2'), 
@@ -21,6 +24,9 @@ const Process = () => {
     {
       title: t('process.title2'),
       description: t('process.desc2'),
+      image: '/images/From-50M-influencers.jpg',
+      emoji: '🎯',
+      imageText: 'Discover',
       features: [
         t('process.feature2.1'),
         t('process.feature2.2'),
@@ -33,6 +39,9 @@ const Process = () => {
     {
       title: t('process.title3'),
       description: t('process.desc3'),
+      image: '/images/Creative-oversight.jpg',
+      emoji: '⚡',
+      imageText: 'Manage',
       features: [
         t('process.feature3.1'),
         t('process.feature3.2'), 
@@ -45,6 +54,9 @@ const Process = () => {
     {
       title: t('process.title4'),
       description: t('process.desc4'),
+      image: '/images/AI-reviews.jpg',
+      emoji: '👥',
+      imageText: 'Review',
       features: [
         t('process.feature4.1'),
         t('process.feature4.2'),
@@ -57,6 +69,9 @@ const Process = () => {
     {
       title: t('process.title5'),
       description: t('process.desc5'),
+      image: '/images/AI-negotiates.jpg',
+      emoji: '📈',
+      imageText: 'Optimize',
       features: [
         t('process.feature5.1'),
         t('process.feature5.2'),
@@ -75,7 +90,7 @@ const Process = () => {
             <ScrollReveal delay={0}>
               <div className={`${index % 2 === 1 ? 'bg-gray-50' : 'bg-white'} w-full`}>
                 <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center py-12 md:py-16 lg:py-20">
+                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center py-16 md:py-20 lg:py-28">
                 <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">
                     {process.title}
@@ -113,14 +128,22 @@ const Process = () => {
                 </div>
                 
                 <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                  <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl aspect-video flex items-center justify-center shadow-inner">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg">
-                        <ArrowRight className="h-8 w-8 text-white" />
+                  <ScrollReveal delay={200} className="origin-center">
+                    <div className="rounded-2xl overflow-hidden shadow-lg relative bg-gray-100 group">
+                      <img 
+                        src={process.image} 
+                        alt={process.title}
+                        className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+                      {/* Emoji覆盖层 */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        {/* 方形白色背景 */}
+                        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                          <span className="text-2xl">{process.emoji}</span>
+                        </div>
                       </div>
-                      <p className="text-gray-600 font-medium text-sm md:text-base">Interactive Demo</p>
                     </div>
-                  </div>
+                  </ScrollReveal>
                 </div>
               </div>
             </div>

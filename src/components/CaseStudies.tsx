@@ -46,16 +46,15 @@ const AnimatedNumber = ({ value, isActive }: { value: string, isActive: boolean 
   return <span>{displayValue}</span>
 }
 
-const CaseStudies = () => {
+interface CaseStudiesProps {
+  onGetStartedClick?: () => void
+}
+
+const CaseStudies = ({ onGetStartedClick }: CaseStudiesProps) => {
   const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
   const [animatedCards, setAnimatedCards] = useState<Set<number>>(new Set())
-
-  useEffect(() => {
-    // 初始加载时激活第一张卡片
-    setAnimatedCards(new Set([0]))
-  }, [])
 
   useEffect(() => {
     if (isHovering) return // 如果正在hover，暂停自动轮播
@@ -128,7 +127,14 @@ const CaseStudies = () => {
         {/* Case Studies Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {caseStudies.map((study, index) => (
-            <ScrollReveal key={index} delay={index * 150}>
+            <ScrollReveal 
+              key={index} 
+              delay={index * 150}
+              onVisible={() => {
+                // 滚动到卡片时立即触发动画
+                setAnimatedCards(prev => new Set(prev).add(index))
+              }}
+            >
               <div 
                 className={`bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 group case-study-card ${index === activeIndex && !isHovering ? 'active-card' : ''}`}
               style={{
@@ -223,13 +229,13 @@ const CaseStudies = () => {
 
         {/* CTA Section */}
         <div className="text-center">
-          <a
-            href="#start"
+          <button
+            onClick={onGetStartedClick}
             className="bg-aura-900 hover:bg-aura-800 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg inline-flex items-center group"
           >
             {t('casestudies.cta')}
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </button>
         </div>
       </div>
     </section>

@@ -137,6 +137,7 @@ export default {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'marquee': 'marquee 40s linear infinite',
         'opacity-pulse': 'opacityPulse 4s ease-in-out infinite',
+        'scale-in': 'scaleIn 1.5s ease-out forwards',
       },
       keyframes: {
         fadeIn: {
@@ -154,6 +155,10 @@ export default {
         opacityPulse: {
           '0%, 100%': { opacity: '0.6' },
           '50%': { opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0.8)' },
+          '100%': { transform: 'scale(1)' },
         }
       },
       spacing: {

@@ -89,7 +89,7 @@ const translations = {
     'whowpower.startup.desc': 'Skip the hiring and long ramp-up. BoomFluence gets your campaigns live in hours, tapping into 50M+ influencers worldwide with smart pricing and fully automated execution.',
     'whowpower.enterprise.desc': 'Scale your influencer marketing across multiple brands and regions with enterprise-grade security, compliance, and dedicated support.',
     'whowpower.agency.desc': 'Manage influencer campaigns for multiple clients with white-label solutions, advanced reporting, and team collaboration tools.',
-    'whowpower.cta.startup': 'Start for free',
+    'whowpower.cta.startup': 'Contact Us',
     'whowpower.cta.enterprise': 'Contact sales',
     'whowpower.cta.agency': 'Book a demo',
     // Startup features
@@ -142,7 +142,7 @@ const translations = {
     // Case Studies
     'casestudies.title': 'Proven wins with the leading AI-native teams',
     'casestudies.subtitle': 'Success stories from AI-first innovators turning intelligence, precision, and efficiency into real, measurable results.',
-    'casestudies.cta': 'Start for free',
+    'casestudies.cta': 'Contact Us',
     'casestudies.caseStudy': 'Case study',
     // Fellou
     'casestudies.fellou.category': 'AI Character Social & Virtual Human App',
@@ -212,7 +212,7 @@ const translations = {
     'guarantee.cta.title2': 'AMAZING',
     'guarantee.cta.title3': '?',
     'guarantee.cta.desc': 'Join thousands of brands already growing with BoomFluence.',
-    'guarantee.cta.button': 'Start Building',
+    'guarantee.cta.button': 'Go to Global Market',
     
     // Footer
     'footer.desc': 'The modern platform for influencer marketing. Build, launch, and scale your campaigns with confidence.',
@@ -310,7 +310,7 @@ const translations = {
     'whowpower.startup.desc': '跳过招聘和漫长的准备期。BoomFluence让您的营销活动在几小时内上线，接入全球5000万+网红，智能定价和全自动执行。',
     'whowpower.enterprise.desc': '通过企业级安全、合规性和专属支持，跨多个品牌和地区扩展您的网红营销。',
     'whowpower.agency.desc': '使用白标解决方案、高级报告和团队协作工具，为多个客户管理网红营销活动。',
-    'whowpower.cta.startup': '免费开始',
+    'whowpower.cta.startup': '联系我们',
     'whowpower.cta.enterprise': '联系销售',
     'whowpower.cta.agency': '预约演示',
     // Startup features
@@ -363,7 +363,7 @@ const translations = {
     // Case Studies
     'casestudies.title': '与领先AI原生团队的成功案例',
     'casestudies.subtitle': 'AI先行创新者的成功故事，将智能、精准和效率转化为真实、可衡量的结果。',
-    'casestudies.cta': '免费开始',
+    'casestudies.cta': '联系我们',
     'casestudies.caseStudy': '案例研究',
     // Fellou
     'casestudies.fellou.category': 'AI角色社交与虚拟人应用',
@@ -433,7 +433,7 @@ const translations = {
     'guarantee.cta.title2': '令人惊叹',
     'guarantee.cta.title3': '的成果了吗？',
     'guarantee.cta.desc': '加入已经在使用BoomFluence成长的数千品牌。',
-    'guarantee.cta.button': '开始创建',
+    'guarantee.cta.button': '走向全球市场',
     
     // Footer
     'footer.desc': '现代化的网红营销平台。自信地创建、启动和扩展您的营销活动。',

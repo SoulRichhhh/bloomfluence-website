@@ -3,13 +3,17 @@ import { CheckCircle, ArrowRight, Star } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import ScrollReveal from './ScrollReveal'
 
-const Guarantee = () => {
+interface GuaranteeProps {
+  onGetStartedClick?: () => void
+}
+
+const Guarantee = ({ onGetStartedClick }: GuaranteeProps) => {
   const { t } = useLanguage()
   const [emojis, setEmojis] = useState<Array<{ id: number; x: number; y: number; emoji: string; vx: number; vy: number }>>([])
   
   const marketingEmojis = ['🚀', '💰', '📈', '🌍', '💎', '✨', '🎯', '💪', '🔥', '⭐', '🌟', '💼', '📊', '🎉']
   
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
@@ -166,8 +170,8 @@ const Guarantee = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={450}>
-              <a
-                href="#start"
+              <button
+                onClick={onGetStartedClick}
                 className="relative font-medium py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center group overflow-visible"
                 style={{
                   background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #10b981 100%)',
@@ -193,7 +197,7 @@ const Guarantee = () => {
                 ))}
                 <span className="relative z-10 text-white">{t('guarantee.cta.button')}</span>
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform relative z-10" />
-              </a>
+              </button>
             </ScrollReveal>
           </div>
         </div>

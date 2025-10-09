@@ -456,4 +456,14 @@
       background-position: 100% 50%;
     }
   }
+
+  /* 图片放大动画 */
+  @keyframes scaleIn {
+    0% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 }
