@@ -475,4 +475,19 @@
       transform: scale(1);
     }
   }
+
+  /* Tab切换滑动动画 */
+  @keyframes tabSlide {
+    0% {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }

@@ -75,25 +75,34 @@ const WhoWePower = () => {
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
               {/* Tab导航 - 固定在顶部 */}
               <div className="flex justify-center mb-8">
-                <div className="bg-white rounded-2xl p-2 inline-flex shadow-sm">
+                <div className="bg-white rounded-2xl p-2 inline-flex shadow-sm relative">
                   {contentArray.map((tab, tabIndex) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveIndex(tabIndex)}
-                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                      className={`relative z-10 px-6 py-3 rounded-xl font-semibold transition-all duration-500 ease-out ${
                         activeIndex === tabIndex
-                          ? 'bg-gray-900 text-white shadow-sm'
-                          : 'text-gray-600 hover:text-gray-900'
+                          ? 'text-white scale-105'
+                          : 'text-gray-600 hover:text-gray-900 hover:scale-105'
                       }`}
                     >
-                      {tab.title}
+                      {/* 背景动画层 */}
+                      {activeIndex === tabIndex && (
+                        <div 
+                          className="absolute inset-0 bg-gray-900 rounded-xl shadow-sm -z-10 transition-all duration-500 ease-out"
+                          style={{
+                            animation: 'tabSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                          }}
+                        />
+                      )}
+                      <span className="relative z-10">{tab.title}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* 内容区域 - 带淡入淡出效果 */}
-              <div className="relative overflow-hidden min-h-[400px] md:min-h-[200px]">
+              <div className="relative overflow-hidden min-h-[400px] md:min-h-[300px]">
                 {contentArray.map((item, itemIndex) => (
                   <div 
                     key={item.id}
