@@ -114,7 +114,7 @@ const Process = () => {
   }
 
   return (
-    <section id="solutions" className="py-24 bg-white lg:bg-white bg-gray-50">
+    <section id="solutions" className="py-12 lg:py-24 bg-gray-50 lg:bg-white">
       {/* 桌面端：保持原有布局 */}
       <div className="hidden lg:block w-full">
         {processes.map((process, index) => (
@@ -200,7 +200,7 @@ const Process = () => {
           {processes.map((process, index) => (
             <div 
               key={index}
-              className="flex-shrink-0 w-full snap-center px-4 py-8"
+              className="flex-shrink-0 w-full snap-center px-4 py-4"
             >
               <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
                 {/* 图片 */}
@@ -220,7 +220,7 @@ const Process = () => {
 
                 {/* 内容 */}
                 <div className="p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                  <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">
                     {process.title}
                   </h2>
                   <p className="text-sm text-gray-600 mb-4 leading-relaxed">
@@ -262,7 +262,7 @@ const Process = () => {
         </div>
 
         {/* 指示器圆点 */}
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex justify-center gap-2 mt-3">
           {processes.map((_, index) => (
             <button
               key={index}
