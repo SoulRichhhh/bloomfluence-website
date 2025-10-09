@@ -204,12 +204,14 @@ const Process = () => {
             >
               <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
                 {/* 图片 */}
-                <div className="relative bg-gray-100 aspect-video">
-                  <img 
-                    src={process.image} 
-                    alt={process.title}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative bg-gray-100 aspect-video overflow-hidden">
+                  <ScrollReveal delay={100}>
+                    <img 
+                      src={process.image} 
+                      alt={process.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </ScrollReveal>
                   {/* Emoji覆盖层 */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                     <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">

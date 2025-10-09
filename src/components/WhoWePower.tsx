@@ -93,11 +93,11 @@ const WhoWePower = () => {
               </div>
 
               {/* 内容区域 - 带淡入淡出效果 */}
-              <div className="relative" style={{ minHeight: '200px' }}>
+              <div className="relative overflow-hidden" style={{ minHeight: '400px' }}>
                 {contentArray.map((item, itemIndex) => (
                   <div 
                     key={item.id}
-                    className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+                    className={`absolute inset-0 w-full transition-all duration-500 ease-in-out ${
                       itemIndex === activeIndex 
                         ? 'opacity-100 translate-x-0 pointer-events-auto' 
                         : itemIndex < activeIndex
