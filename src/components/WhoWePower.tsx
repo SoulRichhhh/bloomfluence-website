@@ -93,7 +93,7 @@ const WhoWePower = () => {
               </div>
 
               {/* 内容区域 - 带淡入淡出效果 */}
-              <div className="relative overflow-hidden" style={{ minHeight: '400px' }}>
+              <div className="relative overflow-hidden min-h-[400px] md:min-h-[200px]">
                 {contentArray.map((item, itemIndex) => (
                   <div 
                     key={item.id}
