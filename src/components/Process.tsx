@@ -160,22 +160,22 @@ const Process = () => {
                 </div>
                 
                 <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                  <ScrollReveal delay={200} className="origin-center">
-                    <div className="rounded-2xl overflow-hidden shadow-lg relative bg-gray-100 group">
+                  <div className="rounded-2xl overflow-hidden shadow-lg relative bg-gray-100 group">
+                    <ScrollReveal delay={200}>
                       <img 
                         src={process.image} 
                         alt={process.title}
                         className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                       />
-                      {/* Emoji覆盖层 */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        {/* 方形白色背景 */}
-                        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-                          <span className="text-2xl">{process.emoji}</span>
-                        </div>
+                    </ScrollReveal>
+                    {/* Emoji覆盖层 */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                      {/* 方形白色背景 */}
+                      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+                        <span className="text-2xl">{process.emoji}</span>
                       </div>
                     </div>
-                  </ScrollReveal>
+                  </div>
                 </div>
               </div>
             </div>
