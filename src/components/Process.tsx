@@ -114,7 +114,7 @@ const Process = () => {
   }
 
   return (
-    <section id="solutions" className="py-24 bg-white">
+    <section id="solutions" className="py-24 bg-white lg:bg-white bg-gray-50">
       {/* 桌面端：保持原有布局 */}
       <div className="hidden lg:block w-full">
         {processes.map((process, index) => (
@@ -202,7 +202,7 @@ const Process = () => {
               key={index}
               className="flex-shrink-0 w-full snap-center px-4 py-8"
             >
-              <div className="bg-white rounded-2xl overflow-hidden">
+              <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
                 {/* 图片 */}
                 <div className="relative bg-gray-100 aspect-[4/3]">
                   <img 
@@ -269,14 +269,9 @@ const Process = () => {
               onClick={() => scrollToIndex(index)}
               className={`transition-all duration-300 rounded-full ${
                 index === activeIndex 
-                  ? 'w-8 h-2' 
-                  : 'w-2 h-2'
+                  ? 'w-8 h-2 bg-gray-900' 
+                  : 'w-2 h-2 bg-gray-300'
               }`}
-              style={{
-                background: index === activeIndex
-                  ? 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #10b981 100%)'
-                  : '#d1d5db'
-              }}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
