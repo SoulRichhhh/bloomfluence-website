@@ -350,7 +350,7 @@ const translations = {
     'features.subtitle': '助力规模化增长',
     'features.desc': '专为现代网红营销规模化设计的综合平台，让您的品牌影响力快速提升。',
     'features.ai.title': 'AI智能匹配',
-    'features.ai.desc': '先进算法分析237+行为信号，为您精准匹配最完美的网红合作伙伴。',
+    'features.ai.desc': '算法分析237+行为信号，精准匹配完美KOL合作伙伴。',
     'features.automation.title': '自动化营销',
     'features.automation.desc': '几分钟内启动营销活动，AI处理联系、谈判和效果跟踪。',
     'features.targeting.title': '精准定向',

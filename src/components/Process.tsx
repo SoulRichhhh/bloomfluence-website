@@ -204,7 +204,7 @@ const Process = () => {
             >
               <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
                 {/* 图片 */}
-                <div className="relative bg-gray-100 aspect-[4/3]">
+                <div className="relative bg-gray-100 aspect-video">
                   <img 
                     src={process.image} 
                     alt={process.title}
